@@ -1,0 +1,113 @@
+body {
+    background: #f4f6f9;
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
+
+/* Card */
+.main-card {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #0d6efd, #0a58ca);
+    color: white;
+    padding: 40px 25px;
+}
+
+.header h2 {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* Menu Wrapper */
+.menu-wrapper {
+    padding: 25px;
+}
+
+/* Menu Button */
+.menu-btn {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 18px;
+    border-radius: 15px;
+    margin-bottom: 18px;
+    transition: 0.3s ease;
+    color: white;
+}
+
+.menu-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    color: white;
+}
+
+/* Colors */
+.primary-menu {
+    background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+}
+
+.success-menu {
+    background: linear-gradient(135deg, #198754, #20c997);
+}
+
+/* Icon */
+.icon-box {
+    width: 60px;
+    height: 60px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 18px;
+    font-size: 28px;
+}
+
+/* Text */
+.menu-text {
+    flex: 1;
+}
+
+.menu-text h5 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.menu-text p {
+    margin: 4px 0 0;
+    opacity: 0.9;
+    font-size: 14px;
+}
+
+/* Arrow */
+.arrow {
+    font-size: 22px;
+    opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .header {
+        padding: 30px 20px;
+    }
+
+    .menu-btn {
+        padding: 15px;
+    }
+
+    .icon-box {
+        width: 50px;
+        height: 50px;
+        font-size: 22px;
+    }
+}
