@@ -127,20 +127,49 @@
                     .then(data => {
                         const [day, month, year] = data?.payload?.birth.split('-');
                         const formatted = `${year}-${month}-${day}`;
+                        const array = data?.payload?.fullname;
+                        const words = array.split(" ");
+                        const nd = words[0];
+                        const nb = words[words.length - 1];
 
                         loading.style.display = 'none';
                         result.innerHTML = `
-                        <div class="form-grid">   
-                            <div class="form-item full">
+                        <input type="hidden" id="uuid_patient" value="${data?.payload?.patient_id || '-'}">
+                        <div class="form-grid">  
+                            <div class="form-item">
+                                <label class="form-label">Nama Depan</label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                    <i class="bi bi-person"></i>
+                                    </span>
+
+                                    <input type="text" id="nama_depan" class="form-control" value="${nd || '-'}">
+                                </div>
+                            </div>
+
+                            <div class="form-item">
+                                <label class="form-label">Nama Belakang</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                    <i class="bi bi-person"></i>
+                                    </span>
+
+                                    <input type="text" id="nama_belakang" value="${nb || '-'}" class="form-control">
+                                </div>
+                            </div> 
+
+                            <div class="form-item">
                                 <label class="form-label"> NIK </label>
                                 <div class="input-group">
                                     <span class="input-group-text">
-                                        <i class="bi bi-person"></i>
+                                        <i class="bi bi-credit-card"></i>
                                     </span>
                                     <input type="text" class="form-control" id="nikInsert" value="${data?.payload?.nik || '-'}">
                                 </div>
                             </div>
-                            <div class="form-item full">
+
+                            <div class="form-item">
                                 <label class="form-label"> Nama Lengkap </label>
                                 <div class="input-group">
                                     <span class="input-group-text">
@@ -149,24 +178,62 @@
                                     <input type="text" class="form-control" id="fullnameInsert" value="${data?.payload?.fullname || '-'}">
                                 </div>
                             </div>
-                            <div class="form-item full">
+                            <div class="form-item">
                                 <label class="form-label"> Tanggal Lahir </label>
                                 <div class="input-group">
                                     <span class="input-group-text">
                                         <i class="bi bi-calendar"></i>
                                     </span>
-                                    <input type="date" class="form-control" id="fullnameInsert" value="${formatted || '-'}">
+                                    <input type="date" class="form-control" id="tgl_lahir" value="${data?.payload?.birth || '-'}">
                                 </div>
                             </div>
-                            <div class="form-item full">
+                            <div class="form-item">
                                 <label class="form-label"> No Telphon </label>
                                 <div class="input-group">
                                     <span class="input-group-text">
                                         <i class="bi bi-person"></i>
                                     </span>
-                                    <input type="number" class="form-control" id="fullnameInsert" value="${data?.payload?.mobile_phone || '-'}">
+                                    <input type="number" class="form-control" id="phone_number" value="${data?.payload?.mobile_phone || '-'}">
                                 </div>
                             </div>
+                            <div class="form-item">
+                                <label class="form-label">Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                    <i class="bi bi-envelope"></i>
+                                    </span>
+
+                                    <input type="email" class="form-control" id="email" value="${data?.payload?.email || '-'}" placeholder="Masukkan email">
+                                </div>
+                            </div>
+
+                            <div class="form-item">
+                                <label class="form-label">Departemen</label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                    <i class="bi bi-diagram-3"></i>
+                                    </span>
+
+                                    <input type="text" class="form-control" id="department" value="${data?.payload?.department || '-'}" placeholder="Masukkan departemen">
+                                </div>
+                            </div>
+
+                            <div class="form-item full">
+                                <label class="form-label">Alamat</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                    <i class="bi bi-card-text"></i>
+                                    </span>
+
+                                    <textarea class="form-control" id="address" placeholder="Masukkan alamat lengkap">${data?.payload?.address || '-'}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="btn-area mt-3">
+                            <button type="submit" class="btn btn-primary w-100" onclick="updateDataPasien()">
+                                <i class="bi bi-check-circle"></i> Submit
+                            </button>
                         </div>
                     `;
                     })
@@ -175,6 +242,38 @@
                         alert('gagal ambil data');
                     });
             });
+
+            function updateDataPasien(){
+                const hidd = document.getElementById("uuid_patient").value;
+                fetch("https://dev.klinikdrsanderb-emcu.com/api/v1/patients/updatepatientapi/"+hidd, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        nik: document.getElementById("nikInsert")?.value || "",
+                        fullname: document.getElementById("fullnameInsert")?.value || "",
+                        birth: document.getElementById("tgl_lahir")?.value || "",
+                        mobile_phone: document.getElementById("phone_number")?.value || "",
+                        email: document.getElementById("email")?.value || "",
+                        department: document.getElementById("department")?.value || "",
+                        address: document.getElementById("address")?.value || ""
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error("Gagal mengirim data");
+                    return response.json();
+                })
+                .then(result => {
+                    console.log("Sukses update:", result);
+                    alert("Data berhasil diupdate");
+                    
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Gagal update data");
+                });
+            }
     </script>
 
 </body>
