@@ -38,6 +38,6 @@ Route::post('/reservasi/mcu', [ReservasiController::class, 'mcnpuStore'])
     ->name('reservasi.mcu.store');
 
 /* ── STATIC / FOOTER PAGES ── */
-Route::get('/bantuan',           fn() => view('reservasi.bantuan'))->name('bantuan');
-Route::get('/syarat-ketentuan',  fn() => view('reservasi.syarat'))->name('syarat-ketentuan');
-Route::get('/kontak',            fn() => view('reservasi.kontak'))->name('kontak');
+Route::get('/bantuan',           fn() => view('reservasi.bantuan'))->name('reservasi.bantuan');
+Route::get('/syarat-ketentuan',  fn() => view('reservasi.syarat'))->name('reservasi.syarat-ketentuan');
+Route::get('/kontak',            fn() => view('reservasi.kontak'))->name('reservasi.kontak');
