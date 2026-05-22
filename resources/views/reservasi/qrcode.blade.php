@@ -105,7 +105,7 @@
                     };
 
                     document.getElementById("nama").innerText = dataQR.nama;
-// text: JSON.stringify(dataQR),
+                    // text: JSON.stringify(dataQR),
                     document.getElementById("nik").innerText =
                         maskNIK(dataQR.nik);
                     new QRCode(document.getElementById("qrcode"), {
