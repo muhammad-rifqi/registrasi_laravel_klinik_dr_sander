@@ -24,10 +24,10 @@
         <div class="mobile-header">
 
             <div class="header-content">
-<!-- 
-                <button class="btn-back" onclick="window.location.href='index.html'">
+
+                <button class="btn-back" onclick="window.history.back();">
                     <i class="bi bi-arrow-left"></i>
-                </button> -->
+                </button>
 
                 <div class="title-area">
                     <h5>Registrasi MCU</h5>
@@ -125,6 +125,9 @@
                         return response.json();
                     })
                     .then(data => {
+                        const [day, month, year] = data?.payload?.birth.split('-');
+                        const formatted = `${year}-${month}-${day}`;
+
                         loading.style.display = 'none';
                         result.innerHTML = `
                         <div class="form-grid">   
@@ -152,7 +155,7 @@
                                     <span class="input-group-text">
                                         <i class="bi bi-calendar"></i>
                                     </span>
-                                    <input type="date" class="form-control" id="fullnameInsert" value="${data?.payload?.birth || '-'}">
+                                    <input type="date" class="form-control" id="fullnameInsert" value="${formatted || '-'}">
                                 </div>
                             </div>
                             <div class="form-item full">

@@ -25,9 +25,9 @@
 
       <div class="header-content">
 
-        <!-- <button class="btn-back" onclick="window.location.href='index.html'">
+        <button class="btn-back" onclick="window.history.back();">
           <i class="bi bi-arrow-left"></i>
-        </button> -->
+        </button>
 
         <div class="title-area">
           <h5>Registrasi MCU</h5>
@@ -51,7 +51,7 @@
           Silahkan isi data pribadi dengan lengkap
         </div>
 
-        <form action="{{route('reservasi.qrcode')}}" method="get">
+        <form id="formPasien">
 
           <div class="form-grid">
 
@@ -64,7 +64,7 @@
                   <i class="bi bi-person"></i>
                 </span>
 
-                <input type="text" class="form-control" placeholder="Masukkan nama depan">
+                <input type="text" id="nama_depan" class="form-control" placeholder="Masukkan nama depan">
               </div>
             </div>
 
@@ -77,7 +77,7 @@
                   <i class="bi bi-person"></i>
                 </span>
 
-                <input type="text" class="form-control" placeholder="Masukkan nama belakang">
+                <input type="text" id="nama_belakang" class="form-control" placeholder="Masukkan nama belakang">
               </div>
             </div>
 
@@ -90,13 +90,13 @@
                   <i class="bi bi-gender-ambiguous"></i>
                 </span>
 
-                <select class="form-select">
+                <select class="form-select" id="gender">
                   <option selected disabled>
                     Pilih jenis kelamin
                   </option>
 
-                  <option>Laki-laki</option>
-                  <option>Perempuan</option>
+                  <option value="m">Laki-laki</option>
+                  <option value="F">Perempuan</option>
                 </select>
               </div>
             </div>
@@ -110,7 +110,7 @@
                   <i class="bi bi-credit-card"></i>
                 </span>
 
-                <input type="text" class="form-control" placeholder="Masukkan NIK">
+                <input type="text" id="nik" class="form-control" placeholder="Masukkan NIK">
               </div>
             </div>
 
@@ -123,7 +123,7 @@
                   <i class="bi bi-calendar"></i>
                 </span>
 
-                <input type="date" class="form-control">
+                <input type="date" id="birth" class="form-control">
               </div>
             </div>
 
@@ -136,7 +136,7 @@
                   <i class="bi bi-envelope"></i>
                 </span>
 
-                <input type="email" class="form-control" placeholder="Masukkan email">
+                <input type="email" class="form-control" id="email" placeholder="Masukkan email">
               </div>
             </div>
 
@@ -149,7 +149,7 @@
                   <i class="bi bi-diagram-3"></i>
                 </span>
 
-                <input type="text" class="form-control" placeholder="Masukkan departemen">
+                <input type="text" class="form-control" id="department" placeholder="Masukkan departemen">
               </div>
             </div>
 
@@ -162,7 +162,7 @@
                   <i class="bi bi-phone"></i>
                 </span>
 
-                <input type="text" class="form-control" placeholder="Masukkan nomor telephone">
+                <input type="text" class="form-control" id="mobile_phone" placeholder="Masukkan nomor telephone">
               </div>
             </div>
 
@@ -175,7 +175,7 @@
                   <i class="bi bi-card-text"></i>
                 </span>
 
-                <textarea class="form-control" placeholder="Masukkan alamat lengkap"></textarea>
+                <textarea class="form-control" id="address" placeholder="Masukkan alamat lengkap"></textarea>
               </div>
             </div>
 
@@ -183,15 +183,20 @@
 
           <!-- BUTTON -->
           <div class="btn-area">
-
-            <button type="submit" class="btn-submit">
-              <i class="bi bi-check-circle"></i>
-              Submit
+            <button type="submit" class="btn-submit" id="btnSubmit">
+              <span id="btnText">
+                <i class="bi bi-check-circle"></i>
+                Submit
+              </span>
+              <span id="btnLoading" style="display:none;">
+                <span class="spinner-border spinner-border-sm"></span>
+                Loading...
+              </span>
             </button>
 
             <button type="reset" class="btn-cancel">
               <i class="bi bi-x-circle"></i>
-              Cancel
+              Reset
             </button>
 
           </div>
@@ -215,5 +220,78 @@
   </a>
 
 </body>
+
+<script>
+  const form = document.getElementById('formPasien');
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const btnSubmit = document.getElementById('btnSubmit');
+    const btnText = document.getElementById('btnText');
+    const btnLoading = document.getElementById('btnLoading');
+
+    // loading ON
+    btnSubmit.disabled = true;
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'inline-block';
+
+    const namaDepan = document.getElementById('nama_depan').value;
+    const namaBelakang = document.getElementById('nama_belakang').value;
+
+    const payload = {
+      title: namaDepan,
+      fullname: namaDepan + ' ' + namaBelakang,
+      nik: document.getElementById('nik').value,
+      gender: document.getElementById('gender').value,
+      email: document.getElementById('email').value,
+      place: document.getElementById('address').value,
+      department: document.getElementById('department').value,
+      mobile_phone: document.getElementById('mobile_phone').value,
+      status: "active",
+      address: document.getElementById('address').value,
+      birth: document.getElementById('birth').value,
+      phone_code: "62",
+      medical_record_number: null,
+      place_of_birth: null
+    };
+
+    try {
+
+      const response = await fetch(
+        'https://dev.klinikdrsanderb-emcu.com/api/v1/patients/storepatients',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // form.reset();
+        window.location.href=`/reservasi/qrcode/${result?.payload?.patient_id}`
+      } else {
+        alert(result.message || 'Gagal menyimpan data');
+      }
+
+    } catch (error) {
+
+      console.error(error);
+      alert('Terjadi kesalahan koneksi');
+
+    } finally {
+
+      // loading OFF
+      btnSubmit.disabled = false;
+      btnText.style.display = 'inline-block';
+      btnLoading.style.display = 'none';
+
+    }
+  });
+</script>
 
 </html>

@@ -78,9 +78,10 @@ class ReservasiController extends Controller
         return view('reservasi.pasien_lama');
     }
 
-    public function qrcode()
+    public function qrcode($id)
     {
-        return view('reservasi.qrcode');
+        $dataid = $id;
+        return view('reservasi.qrcode', compact('dataid'));
     }
 
     /**

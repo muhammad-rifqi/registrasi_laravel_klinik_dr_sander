@@ -72,9 +72,9 @@
 
         <!-- Next -->
         <div class="next-step">
-            Untuk proses berikutnya, silahkan isi
-            <a href="riwayat.html">
-                Form Riwayat Kesehatan →
+            Kembali ke halaman depan
+            <a href="{{route('reservasi.index')}}">
+                Kembali →
             </a>
         </div>
 
@@ -86,63 +86,63 @@
     </div>
 
     <script>
+        // https://dev.klinikdrsanderb-emcu.com/api/v1/patients/search_uuid/ebe3bdcb-98a0-459b-b5bd-d883b2f4c6a4
 
         window.addEventListener("load", onLoad, false);
 
-        function onLoad() {
+           async function onLoad() {
+                try {
+                    const uuid = window.location.pathname.split("/").pop();
+                    const response = await fetch(
+                        `https://dev.klinikdrsanderb-emcu.com/api/v1/patients/search_uuid/${uuid}`
+                    );
+                    const result = await response.json();
+                    const patient = result.payload;
 
-            // Data pasien
-            const dataQR = {
-                nama: "Budi Santoso",
-                nik: "7871123456789011"
-            };
+                    const dataQR = {
+                        nama: patient.fullname,
+                        nik: patient.nik
+                    };
 
-            // Set data ke HTML
-            document.getElementById("nama").innerText = dataQR.nama;
-            document.getElementById("nik").innerText =
-                maskNIK(dataQR.nik);
+                    document.getElementById("nama").innerText = dataQR.nama;
+// text: JSON.stringify(dataQR),
+                    document.getElementById("nik").innerText =
+                        maskNIK(dataQR.nik);
+                    new QRCode(document.getElementById("qrcode"), {
+                        text: dataQR.nik,
+                        width: 180,
+                        height: 180,
+                        colorDark: "#1e3a5f",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
 
-            // Generate QR
-            new QRCode(document.getElementById("qrcode"), {
-                text: JSON.stringify(dataQR),
-                width: 180,
-                height: 180,
-                colorDark: "#1e3a5f",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
+                    document
+                        .getElementById("btnSave")
+                        .addEventListener("click", saveQRToGallery);
 
-            // Event save
-            document
-                .getElementById("btnSave")
-                .addEventListener("click", saveQRToGallery);
-        }
-
-        // Masking NIK
-        function maskNIK(nik) {
-            return nik.substring(0, 4) + "********" + nik.substring(12);
-        }
-
-        // Simpan QR
-        function saveQRToGallery() {
-
-            const canvas =
-                document.querySelector("#qrcode canvas");
-
-            if (!canvas) {
-                alert("QR belum tersedia");
-                return;
+                } catch (error) {
+                    console.error("Gagal fetch data:", error);
+                }
             }
 
-            const image = canvas.toDataURL("image/png");
+            function maskNIK(nik) {
+                return nik.substring(0, 4) + "********" + nik.substring(12);
+            }
 
-            // Download biasa
-            const link = document.createElement("a");
-            link.href = image;
-            link.download = "qr-pasien.png";
-            link.click();
-
-            alert("QR berhasil disimpan");
+        function saveQRToGallery() {
+            const canvas =
+                document.querySelector("#qrcode canvas");
+                    if (!canvas) {
+                        alert("QR belum tersedia");
+                        return;
+                    }
+                    const image = canvas.toDataURL("image/png");
+                    const link = document.createElement("a");
+                    link.href = image;
+                    link.download = "qr-pasien.png";
+                    link.click();
+                    alert("QR berhasil disimpan");
         }
 
     </script>

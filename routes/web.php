@@ -24,7 +24,7 @@ Route::get('/reservasi/pasien_lama', [ReservasiController::class, 'pasien_lama']
 Route::get('/reservasi/pasien_baru', [ReservasiController::class, 'pasien_baru'])
     ->name('reservasi.pasien_baru');
 
-Route::get('/reservasi/qrcode', [ReservasiController::class, 'qrcode'])
+Route::get('/reservasi/qrcode/{id}', [ReservasiController::class, 'qrcode'])
     ->name('reservasi.qrcode');
 
 Route::post('/reservasi/rspp', [ReservasiController::class, 'rsppStore'])
