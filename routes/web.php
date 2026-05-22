@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservasiController;
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+    return redirect('/reservasi');
+
 });
 
 
@@ -36,6 +38,6 @@ Route::post('/reservasi/mcu', [ReservasiController::class, 'mcnpuStore'])
     ->name('reservasi.mcu.store');
 
 /* ── STATIC / FOOTER PAGES ── */
-Route::get('/bantuan',           fn() => view('pages.bantuan'))        ->name('bantuan');
-Route::get('/syarat-ketentuan',  fn() => view('pages.syarat'))         ->name('syarat-ketentuan');
-Route::get('/kontak',            fn() => view('pages.kontak'))         ->name('kontak');
+Route::get('/bantuan',           fn() => view('reservasi.bantuan'))->name('bantuan');
+Route::get('/syarat-ketentuan',  fn() => view('reservasi.syarat'))->name('syarat-ketentuan');
+Route::get('/kontak',            fn() => view('reservasi.kontak'))->name('kontak');
