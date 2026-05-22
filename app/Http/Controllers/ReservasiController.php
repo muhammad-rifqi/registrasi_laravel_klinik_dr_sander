@@ -36,7 +36,7 @@ class ReservasiController extends Controller
         // TODO: Ambil dari DB atau config, ini contoh data static-nya
         $layanan = collect([
             (object)[
-                'slug'       => 'dr. Sander B',
+                'slug'       => 'rspp',
                 'judul'      => 'Registrasi Medical Check Up',
                 'deskripsi'  => 'Lakukan registrasi pemeriksaan kesehatan (Medical Check Up) Anda secara online dengan mudah, cepat, dan tanpa antri panjang.',
                 'tag_label'  => 'MCU',
