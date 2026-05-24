@@ -266,8 +266,8 @@
                 })
                 .then(result => {
                     console.log("Sukses update:", result);
-                    alert("Data berhasil diupdate");
-                    
+                    // alert("Data berhasil diupdate");
+                    window.location.href=`/reservasi/qrcode/${hdd}`
                 })
                 .catch(err => {
                     console.error(err);
