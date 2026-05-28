@@ -45,11 +45,11 @@ class ReservasiController extends Controller
             ],
             (object)[
                 'slug'       => 'mcu',
-                'judul'      => 'Portal Medical Check Up',
+                'judul'      => 'Hasil Medical Check Up',
                 'deskripsi'  => 'Jadwalkan pemeriksaan kesehatan berkala Anda. Pantau kondisi tubuh dengan layanan MCU komprehensif.',
                 'tag_label'  => 'MCU',
                 'fitur'      => ['MCU Dasar', 'MCU Lengkap', 'MCU Eksekutif'],
-                'route_name' => 'reservasi.mcu.create',
+                'route_name' => 'reservasi.create',
             ],
         ]);
 
