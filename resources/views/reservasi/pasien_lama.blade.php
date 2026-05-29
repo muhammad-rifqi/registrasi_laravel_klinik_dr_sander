@@ -245,7 +245,7 @@
 
             function updateDataPasien(){
                 const hidd = document.getElementById("uuid_patient").value;
-                fetch("https://dev.klinikdrsanderb-emcu.com/api/v1/patients/updatepatientapi/"+hidd, {
+                fetch("https://dev.klinikdrsanderb-emcu.com/api/v1/patients/updatepatientapi", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -257,7 +257,8 @@
                         mobile_phone: document.getElementById("phone_number")?.value || "",
                         email: document.getElementById("email")?.value || "",
                         department: document.getElementById("department")?.value || "",
-                        address: document.getElementById("address")?.value || ""
+                        address: document.getElementById("address")?.value || "",
+                        hidd : document.getElementById("uuid_patient").value || ""
                     })
                 })
                 .then(response => {
@@ -267,7 +268,7 @@
                 .then(result => {
                     console.log("Sukses update:", result);
                     // alert("Data berhasil diupdate");
-                    window.location.href=`/reservasi/qrcode/${hdd}`
+                    window.location.href=`/reservasi/qrcode/${hidd}`
                 })
                 .catch(err => {
                     console.error(err);
