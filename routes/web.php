@@ -33,9 +33,8 @@ Route::post('/reservasi/rspp', [ReservasiController::class, 'rsppStore'])
 /* ── PORTAL MCU (Medical Check Up - Portal) ── */
 // Route::get('/reservasi/mcu/daftar', [ReservasiController::class, 'mcuCreate'])
 //     ->name('reservasi.mcu.create');
-Route::get('/reservasi/mcu/daftar', function () {
-    return redirect('https://portal.klinikdrsanderb-emcu.com/login');
-});
+Route::get('/reservasi/result', [ReservasiController::class,'result'])
+    ->name('reservasi.result');
 
 Route::post('/reservasi/mcu', [ReservasiController::class, 'mcnpuStore'])
     ->name('reservasi.mcu.store');

@@ -49,7 +49,7 @@ class ReservasiController extends Controller
                 'deskripsi'  => 'Jadwalkan pemeriksaan kesehatan berkala Anda. Pantau kondisi tubuh dengan layanan MCU komprehensif.',
                 'tag_label'  => 'MCU',
                 'fitur'      => ['MCU Dasar', 'MCU Lengkap', 'MCU Eksekutif'],
-                'route_name' => 'reservasi.create',
+                'route_name' => 'reservasi.result',
             ],
         ]);
 
@@ -89,6 +89,12 @@ class ReservasiController extends Controller
      * Simpan data registrasi dr. Sander B.
      * TODO: Implementasi validasi & simpan ke DB
      */
+
+    public function result()
+    {
+         return redirect('https://portal.klinikdrsanderb-emcu.com/login');
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

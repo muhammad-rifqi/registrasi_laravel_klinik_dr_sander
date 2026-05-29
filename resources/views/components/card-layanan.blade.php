@@ -22,10 +22,10 @@
 
 <div class="card card-{{ $layanan->slug }}"
      onclick="window.location='{{ route($layanan->route_name) }}'">
-
     <div class="card-icon-wrap">
         @if($layanan->slug === 'rspp')
             {{-- Icon: doctor scene --}}
+         
             <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="6" y="28" width="40" height="3" rx="1.5" fill="#1565C0" opacity="0.2"/>
                 <circle cx="34" cy="15" r="6" fill="#1976D2" opacity="0.85"/>
