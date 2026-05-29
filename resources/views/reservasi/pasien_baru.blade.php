@@ -64,20 +64,20 @@
                   <i class="bi bi-person"></i>
                 </span>
 
-                <input type="text" id="nama_depan" class="form-control" placeholder="Masukkan nama depan">
+                <input type="text" id="nama_depan" class="form-control" placeholder="Masukkan nama depan" required>
               </div>
             </div>
 
             <!-- Nama Belakang -->
             <div class="form-item">
-              <label class="form-label">Nama Belakang</label>
+              <label class="form-label">Nama Belakang (Optional)</label>
 
               <div class="input-group">
                 <span class="input-group-text">
                   <i class="bi bi-person"></i>
                 </span>
 
-                <input type="text" id="nama_belakang" class="form-control" placeholder="Masukkan nama belakang">
+                <input type="text" id="nama_belakang" class="form-control" placeholder="Masukkan nama belakang"> 
               </div>
             </div>
 
@@ -90,7 +90,7 @@
                   <i class="bi bi-gender-ambiguous"></i>
                 </span>
 
-                <select class="form-select" id="gender">
+                <select class="form-select" id="gender" required>
                   <option selected disabled>
                     Pilih jenis kelamin
                   </option>
@@ -110,7 +110,7 @@
                   <i class="bi bi-credit-card"></i>
                 </span>
 
-                <input type="text" id="nik" class="form-control" placeholder="Masukkan NIK">
+                <input type="text" id="nik" class="form-control" placeholder="Masukkan NIK" required>
               </div>
             </div>
 
@@ -123,7 +123,7 @@
                   <i class="bi bi-calendar"></i>
                 </span>
 
-                <input type="date" id="birth" class="form-control">
+                <input type="date" id="birth" class="form-control" required>
               </div>
             </div>
 
@@ -136,7 +136,7 @@
                   <i class="bi bi-envelope"></i>
                 </span>
 
-                <input type="email" class="form-control" id="email" placeholder="Masukkan email">
+                <input type="email" class="form-control" id="email" placeholder="Masukkan email" required>
               </div>
             </div>
 
@@ -149,7 +149,7 @@
                   <i class="bi bi-diagram-3"></i>
                 </span>
 
-                <input type="text" class="form-control" id="department" placeholder="Masukkan departemen">
+                <input type="text" class="form-control" id="department" placeholder="Masukkan departemen" required>
               </div>
             </div>
 
@@ -162,7 +162,7 @@
                   <i class="bi bi-phone"></i>
                 </span>
 
-                <input type="text" class="form-control" id="mobile_phone" placeholder="Masukkan nomor telephone">
+                <input type="text" class="form-control" id="mobile_phone" placeholder="Masukkan nomor telephone" required>
               </div>
             </div>
 
@@ -175,7 +175,7 @@
                   <i class="bi bi-card-text"></i>
                 </span>
 
-                <textarea class="form-control" id="address" placeholder="Masukkan alamat lengkap"></textarea>
+                <textarea class="form-control" id="address" placeholder="Masukkan alamat lengkap" required></textarea>
               </div>
             </div>
 
@@ -236,8 +236,8 @@
     btnText.style.display = 'none';
     btnLoading.style.display = 'inline-block';
 
-    const namaDepan = document.getElementById('nama_depan').value;
-    const namaBelakang = document.getElementById('nama_belakang').value;
+    const namaDepan = document.getElementById('nama_depan').value || " - ";
+    const namaBelakang = document.getElementById('nama_belakang').value || " - ";
 
     const payload = {
       title: namaDepan,
