@@ -92,7 +92,8 @@ class ReservasiController extends Controller
 
     public function result()
     {
-         return redirect('https://portal.klinikdrsanderb-emcu.com/login');
+        //  return redirect('https://portal.klinikdrsanderb-emcu.com/login');
+        return view('reservasi.result');
     }
 
     public function store(Request $request)

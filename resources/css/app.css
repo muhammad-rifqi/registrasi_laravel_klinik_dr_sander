@@ -292,6 +292,7 @@ h1 .accent {
     margin-bottom: 28px;
 }
 
+
 /* CTA Button */
 .card-btn {
     display: inline-flex;
@@ -388,3 +389,4 @@ footer {
     footer { flex-direction: column; gap: 12px; text-align: center; padding: 20px; }
     .footer-links { justify-content: center; }
 }
+

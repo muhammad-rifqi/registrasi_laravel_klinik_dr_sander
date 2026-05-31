@@ -65,12 +65,20 @@
 
     <br>
 
-    {{-- CTA Button --}}
-    <a href="{{ route($layanan->route_name) }}" class="card-btn">
+
+     @if($layanan->slug === 'rspp')
+    <a href="{{ route($layanan->route_name) }}" class="card-btn" style="background-color: #198754; color: #fff">
         Daftar Sekarang
         <svg viewBox="0 0 16 16" fill="none">
             <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     </a>
-
+    @else
+    <a href="{{ route($layanan->route_name) }}" style="background-color:#006699; display: inline-flex;align-items: center;gap: 3px;padding: 12px 28px;border-radius: 100px;font-size: 14px;font-weight: 700;border: none;cursor: pointer;transition: transform 0.2s ease, box-shadow 0.2s ease;text-decoration: none;letter-spacing: 0.2px;color: white;box-shadow: 0 6px 20px rgba(67,160,71,0.35);white-space: nowrap; width: 150px;">
+        Lihat Hasil 
+        <svg viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
+    @endif
 </div>
