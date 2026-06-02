@@ -89,7 +89,7 @@
     </div>
 
     <!-- FLOATING BUTTON -->
-    <a href="/reservasi/daftar" class="floating-back">
+    <a href="/reservasi" class="floating-back">
         <i class="bi bi-house-door-fill"></i>
     </a>
 
