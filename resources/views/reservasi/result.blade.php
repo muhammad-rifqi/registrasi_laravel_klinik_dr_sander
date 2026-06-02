@@ -120,7 +120,15 @@
                     })
                     .then(data => {
                         loading.style.display = 'none';
-                        var html = `<div class="table-responsive"><table class="table" width="100%">`;
+                        var html = `<div class="table-responsive">
+                                    <table class="table" width="100%">
+                                    <tr>
+                                        <td>Registration Number</td>
+                                        <td>NIK</td>
+                                        <td>Name</td>
+                                        <td>Tanggal MCU</td>
+                                    </tr> 
+                                    `;
                         data.payload.forEach(element => {
                             html += `
                                     <tr>
