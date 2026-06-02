@@ -54,7 +54,7 @@
                 <form id="nikFormCari">
                     <div class="form-grid">
                         <div class="form-item full">
-                            <label class="form-label"> NIK </label>
+                            <label class="form-label">MASUKAN NIK</label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="bi bi-person"></i>
