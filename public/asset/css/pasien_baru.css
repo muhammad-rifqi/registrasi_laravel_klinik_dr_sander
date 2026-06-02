@@ -30,7 +30,7 @@
       position: sticky;
       top: 0;
       z-index: 999;
-      background: linear-gradient(135deg, #0d6efd, #2563eb);
+      background: linear-gradient(135deg, #2963bb, #031d57);
       color: white;
       padding: 18px 24px;
       border-radius: 0 0 24px 24px;
@@ -183,7 +183,7 @@
     }
 
     .btn-submit {
-      background: #0d6efd;
+      background: #082e65;
       color: white;
     }
 

@@ -13,7 +13,7 @@ body {
 
 /* Header */
 .header {
-    background: linear-gradient(135deg, #0d6efd, #0a58ca);
+    background: linear-gradient(135deg, #0d6efd, #02204e);
     color: white;
     padding: 40px 25px;
 }
@@ -53,11 +53,11 @@ body {
 
 /* Colors */
 .primary-menu {
-    background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+    background: linear-gradient(135deg, #0d6efd, #02204e);
 }
 
 .success-menu {
-    background: linear-gradient(135deg, #198754, #20c997);
+    background: linear-gradient(135deg, #198754, #024531);
 }
 
 /* Icon */
