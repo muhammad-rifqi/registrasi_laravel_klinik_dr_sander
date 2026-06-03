@@ -110,7 +110,7 @@
                   <i class="bi bi-credit-card"></i>
                 </span>
 
-                <input type="text" id="nik" class="form-control" placeholder="Masukkan NIK" required>
+                <input type="number" id="nik" class="form-control" placeholder="Masukkan NIK" required>
               </div>
             </div>
 
@@ -162,7 +162,7 @@
                   <i class="bi bi-phone"></i>
                 </span>
 
-                <input type="text" class="form-control" id="mobile_phone" placeholder="Masukkan nomor telephone" required>
+                <input type="number" class="form-control" id="mobile_phone" placeholder="Masukkan nomor telephone" required>
               </div>
             </div>
 
