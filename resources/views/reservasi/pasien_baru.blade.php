@@ -55,7 +55,25 @@
 
           <div class="form-grid">
 
-            <!-- Nama Depan -->
+            <div class="form-item">
+              <label class="form-label">Title</label>
+
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-person"></i>
+                </span>
+
+                <select id="title" class="form-control" required>
+                <option value="NULL"> Choose Title </option>
+                <option value="Tn">Tn</option>
+                <option value="Ny">Ny</option>
+                <option value="Mr">Mr</option>
+                <option value="Mrs">Mrs</option>
+                <option value="Nn">Nn</option>
+                </select>
+              </div>
+            </div>
+
             <div class="form-item">
               <label class="form-label">Nama Depan</label>
 
@@ -140,6 +158,20 @@
               </div>
             </div>
 
+            <div class="form-item">
+              <label class="form-label"> Company </label>
+
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-building"></i>
+                </span>
+
+                <select class="form-control" id="companies_all" required>
+                  
+                </select>
+              </div>
+            </div>
+
             <!-- Departemen -->
             <div class="form-item">
               <label class="form-label">Departemen</label>
@@ -166,21 +198,34 @@
               </div>
             </div>
 
-            <div class="form-item full">
-              <label class="form-label"> Company </label>
+            <!-- <div class="form-item">
+              <label class="form-label"> Package </label>
 
               <div class="input-group">
                 <span class="input-group-text">
                   <i class="bi bi-building"></i>
                 </span>
 
-                <select class="form-control" id="companies_all" required>
+                <select class="form-control" id="packages_all" required>
                   
                 </select>
               </div>
-            </div>
+            </div> -->
 
-            
+            <!-- <div class="form-item full">
+              <label class="form-label"> Doctor Coordinator </label>
+
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-building"></i>
+                </span>
+
+                <select class="form-control" id="coordinator_all" required>
+                  
+                </select>
+              </div>
+            </div> -->
+
             <!-- Alamat -->
             <div class="form-item full">
               <label class="form-label">Alamat</label>
@@ -238,7 +283,13 @@
 
 <script>
 
-  window.addEventListener("load", ()=> {
+  window.addEventListener("load", async () => {
+    await getCompanyAll();
+    // await getPackageMcu();
+    // await getDoctorCoordinator();
+  })
+
+  function getCompanyAll(){
     fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/companies/all')
     .then(resp => resp.json())
     .then((comp) => {
@@ -249,7 +300,31 @@
         })
         document.getElementById("companies_all").innerHTML= ddd;
     })
-  })
+  }
+
+  // function getPackageMcu(){
+  //   fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-package')
+  //   .then(res => res.json())
+  //   .then((packages) => {
+  //       var rrr = `<option value="NULL">Choose Package</option>`;
+  //       packages?.payload?.forEach((rows , index) => {
+  //           rrr += `<option value="${rows.id_paket}" data-doctor="${rows.id_jenis_dokter}">${rows.nama_paket}</option>`;
+  //       })
+  //       document.getElementById("packages_all").innerHTML= rrr;
+  //   })
+  // }
+
+  // function getDoctorCoordinator(){
+  //   fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-doctor-coordinator')
+  //   .then(respon => respon.json())
+  //   .then((coordination) => {
+  //       var rrrr = `<option value="NULL">Choose Coordinator</option>`;
+  //       coordination?.payload?.forEach((rowss , index) => {
+  //           rrrr += `<option value="${rowss.id_dokter}">${rowss.nama_dokter}</option>`;
+  //       })
+  //       document.getElementById("coordinator_all").innerHTML= rrrr;
+  //   })
+  // }
 
 
   const form = document.getElementById('formPasien');
@@ -270,7 +345,7 @@
     const namaBelakang = document.getElementById('nama_belakang').value || " - ";
 
     const payload = {
-      title: namaDepan,
+      title: document.getElementById('title').value,
       fullname: namaDepan + ' ' + namaBelakang,
       nik: document.getElementById('nik').value,
       gender: document.getElementById('gender').value,
