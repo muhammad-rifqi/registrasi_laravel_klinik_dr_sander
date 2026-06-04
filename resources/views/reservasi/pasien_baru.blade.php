@@ -166,6 +166,21 @@
               </div>
             </div>
 
+            <div class="form-item full">
+              <label class="form-label"> Company </label>
+
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-building"></i>
+                </span>
+
+                <select class="form-control" id="companies_all" required>
+                  
+                </select>
+              </div>
+            </div>
+
+            
             <!-- Alamat -->
             <div class="form-item full">
               <label class="form-label">Alamat</label>
@@ -222,6 +237,21 @@
 </body>
 
 <script>
+
+  window.addEventListener("load", ()=> {
+    fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/companies/all')
+    .then(resp => resp.json())
+    .then((comp) => {
+      // console.log(comp)
+        var ddd = `<option value="NULL">Choose Company</option>`;
+        comp?.payload?.forEach((element , index) => {
+            ddd += `<option value="${element?.company_id}">${element?.name}</option>`;
+        })
+        document.getElementById("companies_all").innerHTML= ddd;
+    })
+  })
+
+
   const form = document.getElementById('formPasien');
 
   form.addEventListener('submit', async function (e) {
@@ -249,6 +279,7 @@
       department: document.getElementById('department').value,
       mobile_phone: document.getElementById('mobile_phone').value,
       status: "active",
+      company_all: document.getElementById('companies_all').value,
       address: document.getElementById('address').value,
       birth: document.getElementById('birth').value,
       phone_code: "62",
