@@ -44,11 +44,11 @@
             <div class="card-mobile">
 
                 <div class="section-title">
-                    Data Peserta eMCU
+                    Hasil eMCU
                 </div>
 
                 <div class="section-subtitle">
-                    Silahkan isi data pribadi anda
+                    Silahkan isi form riwayat berikut:
                 </div>
 
                 <form id="nikFormCari">

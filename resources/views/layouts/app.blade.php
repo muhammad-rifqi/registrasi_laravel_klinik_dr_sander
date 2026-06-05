@@ -54,5 +54,15 @@
 </footer>
 
 @stack('scripts')
+<script>
+    
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://jsonplaceholder.typicode.com/todos/1");
+    xhr.onload = () => {
+        console.log(JSON.parse(xhr.responseText));
+    };
+    xhr.send();
+
+</script>
 </body>
 </html>
