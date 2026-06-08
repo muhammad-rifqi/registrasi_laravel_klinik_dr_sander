@@ -198,7 +198,7 @@
               </div>
             </div>
 
-            <!-- <div class="form-item">
+            <div class="form-item">
               <label class="form-label"> Package </label>
 
               <div class="input-group">
@@ -206,13 +206,13 @@
                   <i class="bi bi-building"></i>
                 </span>
 
-                <select class="form-control" id="packages_all" required>
+                <select class="form-control" id="packages_all" onchange="getDoctorPackage(this)" required>
                   
                 </select>
               </div>
-            </div> -->
+            </div>
 
-            <!-- <div class="form-item full">
+            <div class="form-item">
               <label class="form-label"> Doctor Coordinator </label>
 
               <div class="input-group">
@@ -224,7 +224,22 @@
                   
                 </select>
               </div>
-            </div> -->
+            </div>
+
+            <div class="form-item">
+              <label class="form-label"> Detail Package </label>
+
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-building"></i>
+                </span>
+
+                 <div class="row" id="resultDokterPackage">
+
+                 </div>
+               
+              </div>
+            </div>
 
             <!-- Alamat -->
             <div class="form-item full">
@@ -240,6 +255,8 @@
             </div>
 
           </div>
+          
+          <input type="hidden" name="id_jenis_dokter" id="id_jenis_dokter">
 
           <!-- BUTTON -->
           <div class="btn-area">
@@ -281,12 +298,13 @@
 
 </body>
 
+<script src="https://dev.klinikdrsanderb-emcu.com/assets/js/jquery-3.5.1.js"></script>
 <script>
 
   window.addEventListener("load", async () => {
     await getCompanyAll();
-    // await getPackageMcu();
-    // await getDoctorCoordinator();
+    await getPackageMcu();
+    await getDoctorCoordinator();
   })
 
   function getCompanyAll(){
@@ -302,29 +320,29 @@
     })
   }
 
-  // function getPackageMcu(){
-  //   fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-package')
-  //   .then(res => res.json())
-  //   .then((packages) => {
-  //       var rrr = `<option value="NULL">Choose Package</option>`;
-  //       packages?.payload?.forEach((rows , index) => {
-  //           rrr += `<option value="${rows.id_paket}" data-doctor="${rows.id_jenis_dokter}">${rows.nama_paket}</option>`;
-  //       })
-  //       document.getElementById("packages_all").innerHTML= rrr;
-  //   })
-  // }
+  function getPackageMcu(){
+    fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-package')
+    .then(res => res.json())
+    .then((packages) => {
+        var rrr = `<option value="NULL">Choose Package</option>`;
+        packages?.payload?.forEach((rows , index) => {
+            rrr += `<option value="${rows.id_paket}" data-doctor="${rows.id_jenis_dokter}">${rows.nama_paket}</option>`;
+        })
+        document.getElementById("packages_all").innerHTML= rrr;
+    })
+  }
 
-  // function getDoctorCoordinator(){
-  //   fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-doctor-coordinator')
-  //   .then(respon => respon.json())
-  //   .then((coordination) => {
-  //       var rrrr = `<option value="NULL">Choose Coordinator</option>`;
-  //       coordination?.payload?.forEach((rowss , index) => {
-  //           rrrr += `<option value="${rowss.id_dokter}">${rowss.nama_dokter}</option>`;
-  //       })
-  //       document.getElementById("coordinator_all").innerHTML= rrrr;
-  //   })
-  // }
+  function getDoctorCoordinator(){
+    fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-doctor-coordinator')
+    .then(respon => respon.json())
+    .then((coordination) => {
+        var rrrr = `<option value="NULL">Choose Coordinator</option>`;
+        coordination?.payload?.forEach((rowss , index) => {
+            rrrr += `<option value="${rowss.id_dokter}">${rowss.nama_dokter}</option>`;
+        })
+        document.getElementById("coordinator_all").innerHTML= rrrr;
+    })
+  }
 
 
   const form = document.getElementById('formPasien');
@@ -398,6 +416,59 @@
 
     }
   });
+
+  function getDoctorPackage(e){
+          document.getElementById('id_jenis_dokter').value = e.selectedOptions[0].dataset.doctor;
+          let split = e.selectedOptions[0].dataset.doctor.split(',');
+          let html = '';
+          split.map(res => {
+              fetch(`https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-doctor-package?id_jenis_dokter=${res}`)
+              .then(ddd => ddd.json())
+              .then((dddd) => {
+                    console.log(dddd);
+              })
+          });
+  }
+
+  // $(document).on('change', '#packages_all', function(){
+  //         let element = $(this).find('option:selected'); 
+  //         let idDokter = element.attr("data-doctor"); 
+  //         $('#id_jenis_dokter').val(idDokter)
+  //         let split = idDokter.split(',');
+  //         let html = '';
+  //         split.map(res => {
+  //             getData(`https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-doctor-package?id_jenis_dokter=${res}`,(type, data) => {
+  //                 if(type === 'success'){
+  //                     if(data.status == 200){
+  //                         let res = data.payload;
+  //                         let option = '<option></option>';
+  //                         let title = '';
+  //                         $.each(res, function (key, val) {
+  //                             if(val.id_dokter && val.nama_dokter && val.jenis_dokter){
+  //                                 if(key === 0) title = val.jenis_dokter
+  //                                 option += `<option value="${val.id_dokter}">${val.nama_dokter}</option>`
+  //                             }
+  //                         });
+  //                         html += `
+  //                             <div class="col-sm-6 col-12">
+  //                                 <div class="form-group">
+  //                                     <label for="basicInput">Doctor Package <span class="fw-bold">(${title})</span> <span class="text-danger">*</span></label>
+  //                                     <select name="id_dokter[]" class="select2" style="width: 100%">${option}</select>
+  //                                 </div>
+  //                             </div>
+  //                         `;
+  //                         $('#resultDokterPackage').html(html)
+  //                         $('.select2').select2({
+  //                             placeholder: "Please Select",
+  //                             allowClear: true
+  //                         })
+  //                     }
+  //                 } else{
+  //                     console.log('error')
+  //                 }
+  //             })
+  //         })
+  //     })
 </script>
 
 </html>
