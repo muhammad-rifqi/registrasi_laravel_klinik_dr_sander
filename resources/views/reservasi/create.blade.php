@@ -254,6 +254,8 @@
       </div>
     </div>
 
+    
+
     <!-- Riwayat Registrasi Tersimpan -->
     <div class="card" id="savedListCard" style="display:none">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px">
