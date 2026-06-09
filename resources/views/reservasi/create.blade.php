@@ -774,7 +774,7 @@ async function pSubmit(){
     registeredAt:new Date().toISOString(),
   };
 
-
+  console.log(peserta);
 
      const payload = {
       title: peserta.title,
@@ -795,7 +795,6 @@ async function pSubmit(){
       patients_id : peserta.patient_id
     };
 
-    console.log(payload)
     try {
       const response = await fetch(
         'https://dev.klinikdrsanderb-emcu.com/api/v1/patients/storepatients',
@@ -810,7 +809,52 @@ async function pSubmit(){
       const result = await response.json();
       if (response.ok) {
         // window.location.href=`/reservasi/qrcode/${result?.payload?.patient_id}`
-        console.log(result)
+            console.log(result);
+            if(result.status == 201){
+              await fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/patients/inserthistory', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      
+                      body: JSON.stringify({
+                        patient_id : peserta.patient_id,
+                        color_blind : 1,
+                        eye : peserta.physicalExam.eye.normal,
+                        tht : ' - ',
+                        grievence : peserta.chiefComplaint,
+                        post_ilness: peserta.pastIllness,
+                        family_history_ilness: peserta.familyHistory,
+                        thoraks : peserta.physicalExam.thorax.normal,
+                        extremitas : peserta.physicalExam.extremity.normal,
+                        is_smoke : peserta.habits.smoke,
+                        smoke_a_day : '-',
+                        is_alcohol : peserta.habits.alcohol,
+                        is_coffe : peserta.habits.coffee,
+                        is_sport : peserta.habits.sport,
+                        sport_type : '-',
+                        sport_freek_or_sunday : '-',
+                        neck : peserta.physicalExam.neck.normal,
+                        tooth_or_mouth : peserta.physicalExam.tooth.normal + '##' + peserta.physicalExam.tooth.note,
+                        abdomen : peserta.physicalExam.abdomen.normal,
+                        etc : peserta.physicalExam.etc.normal,
+                      })
+                    })
+                      .then(response => {
+                        if (!response.ok) {
+                          throw new Error('Request gagal');
+                        }
+                        return response.json();
+                      })
+                      .then(data => {
+                        console.log('Sukses:', data);
+                      })
+                      .catch(error => {
+                        console.error('Error:', error);
+                      });
+            }else{
+
+            }
       } else {
         alert(result.message || 'Gagal menyimpan data');
       }
@@ -819,10 +863,10 @@ async function pSubmit(){
       alert('Terjadi kesalahan koneksi');
     }
 
-//   const saved=upsertPeserta(peserta);
+  const saved=upsertPeserta(peserta);
   pCurrentData=peserta;
   renderPStep(3);
-//   renderSavedList();
+  renderSavedList();
   toast(saved?'Data berhasil disimpan & QR siap ditunjukkan.':'Data tersimpan sementara (storage penuh).',saved?'ok':'err');
 
 }
