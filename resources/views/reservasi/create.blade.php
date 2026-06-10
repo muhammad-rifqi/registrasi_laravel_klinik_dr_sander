@@ -390,8 +390,23 @@
 //  STORAGE
 // ══════════════════════════════════════════
 const STORAGE_KEY = 'emcu_peserta_2026';
-function getDB(){try{const r=localStorage.getItem(STORAGE_KEY);return r?JSON.parse(r):[]}catch{return[]}}
-function saveDB(db){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(db));return true}catch{return false}}
+function getDB(){
+    try{
+      const r = localStorage.getItem(STORAGE_KEY);
+      return r?JSON.parse(r):[]
+    }catch{
+      return[]
+    }
+  }
+function saveDB(db){
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(db));
+    return true
+  }catch{
+    return false
+  }
+}
+
 function findByNik(nik){
   const db=getDB();
   const s=db.find(p=>p.nik===nik);
