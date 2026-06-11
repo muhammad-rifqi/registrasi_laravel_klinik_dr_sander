@@ -833,7 +833,7 @@ async function pSubmit(){
                       },
                       
                       body: JSON.stringify({
-                        patient_id : peserta.patient_id,
+                        patient_id : peserta.patient_id || crypto.randomUUID(),
                         color_blind : 1,
                         eye : peserta.physicalExam.eye.normal,
                         tht : ' - ',
