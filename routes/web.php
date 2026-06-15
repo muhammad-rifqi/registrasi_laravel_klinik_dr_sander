@@ -5,7 +5,7 @@ use App\Http\Controllers\ReservasiController;
 
 Route::get('/', function () {
     // return view('welcome');
-    return redirect('/reservasi');
+    return redirect('/reservasi/daftar');
 
 });
 
