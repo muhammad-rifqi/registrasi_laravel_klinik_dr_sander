@@ -243,7 +243,7 @@
             <div style="background:var(--blue-l);border:2px solid rgba(26,111,212,0.2);border-radius:var(--r8);padding:12px 16px;display:flex;align-items:center;gap:10px">
               <span style="font-size:10px;font-weight:700;background:var(--blue);color:white;padding:3px 8px;border-radius:6px;letter-spacing:.5px;flex-shrink:0">API</span>
               <span style="font-size:14px;font-weight:600;color:var(--ink-2); width:100%;">
-				 <select style="width:100%; border: 0px; padding: 4px; display:none;" id="p-company_all" required>
+				        <select style="width:100%; border: 0px; padding: 4px; display:none;" id="p-company_all" required>
                   
                 </select>
 				  <span id="viewPerusahaan"></span>
