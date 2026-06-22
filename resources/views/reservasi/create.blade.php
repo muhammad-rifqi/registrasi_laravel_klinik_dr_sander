@@ -242,7 +242,12 @@
             <label class="field-label">Perusahaan</label>
             <div style="background:var(--blue-l);border:2px solid rgba(26,111,212,0.2);border-radius:var(--r8);padding:12px 16px;display:flex;align-items:center;gap:10px">
               <span style="font-size:10px;font-weight:700;background:var(--blue);color:white;padding:3px 8px;border-radius:6px;letter-spacing:.5px;flex-shrink:0">API</span>
-              <span style="font-size:14px;font-weight:600;color:var(--ink-2)">PT. Nusantara Makmur Sejahtera</span>
+              <span style="font-size:14px;font-weight:600;color:var(--ink-2); width:100%;">
+				 <select style="width:100%; border: 0px; padding: 4px; display:none;" id="p-company_all" required>
+                  
+                </select>
+				  <span id="viewPerusahaan"></span>
+			  </span>
             </div>
           </div>
         </div>
@@ -412,7 +417,11 @@ function findByNik(nik){
   const s=db.find(p=>p.nik===nik);
   if(s) return{data:s,source:'saved'};
   const m=MOCK_DB.find(p=>p.nik===nik);
-  if(m) return{data:m,source:'mock'};
+  if(m) {
+	  cariPerusahaan(m.patient_id);
+	  document.getElementById("p-company_all").style="display:none;";
+	  return{data:m,source:'mock'};
+  }
   return null;
 }
 function findByPassport(pass){
@@ -443,6 +452,15 @@ window.addEventListener("load", async ()=> {
         MOCK_DB = bbb.payload || [];
     })
 })
+	
+	
+function cariPerusahaan(patientid){
+	fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/companies/getpatient/'+patientid)
+	.then(yyy => yyy.json())
+	.then((rw) => {
+		document.getElementById("viewPerusahaan").innerHTML=rw.data[0].name || "-";
+	})
+}
 
 // ══════════════════════════════════════════
 //  STATE
@@ -457,6 +475,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   buildHabitGrid();
   buildExamGrid();
   renderSavedList();
+  getCompanyAll();
 });
 
 // ══════════════════════════════════════════
@@ -534,6 +553,7 @@ function fmtNikField(el){
 //  SEARCH
 // ══════════════════════════════════════════
 function pDoSearch(){
+  document.getElementById("p-company_all").style="display:block; width: 100%; padding : 4px;";
   const raw=document.getElementById('p-nikInp').value;
   const d=raw.replace(/\s/g,'');
   const st=document.getElementById('p-searchStatus');
@@ -784,6 +804,7 @@ async function pSubmit(){
     pastIllness:document.getElementById('p-pastIllness').value.trim(),
     familyHistory:document.getElementById('p-familyHistory').value.trim(),
     patient_id : document.getElementById('p_patient_id').value.trim(),
+	p_company_all:document.getElementById('p-company_all').value.trim(),
     habits:getHabitData(),
     physicalExam:getExamData(),
     registeredAt:new Date().toISOString(),
@@ -801,7 +822,7 @@ async function pSubmit(){
       department: peserta.dept,
       mobile_phone: peserta.hp,
       status: "active",
-      company_all: '-',
+      company_all: peserta.p_company_all,
       address: '-',
       birth: peserta.tglLahir,
       phone_code: "62",
@@ -860,6 +881,7 @@ async function pSubmit(){
                           throw new Error('Request gagal');
                         }
                         return response.json();
+				  		localStorage.removeItem('emcu_peserta_2026'); 
                       })
                       .then(data => {
                         console.log('Sukses:', data);
@@ -881,7 +903,7 @@ async function pSubmit(){
   const saved=upsertPeserta(peserta);
   pCurrentData=peserta;
   renderPStep(3);
-  renderSavedList();
+  //renderSavedList();
   toast(saved?'Data berhasil disimpan & QR siap ditunjukkan.':'Data tersimpan sementara (storage penuh).',saved?'ok':'err');
 
 }
@@ -1109,6 +1131,21 @@ function toast(msg,type='ok'){
   w.appendChild(t);
   setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),300);},3500);
 }
+	
+
+function getCompanyAll(){
+    fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/companies/all')
+    .then(resp => resp.json())
+    .then((comp) => {
+      // console.log(comp)
+        var ddd = `<option value="NULL">Choose Company</option>`;
+        comp?.payload?.forEach((element , index) => {
+            ddd += `<option value="${element?.company_id}">${element?.name}</option>`;
+        })
+        document.getElementById("p-company_all").innerHTML= ddd;
+    })
+ }
+	
 </script>
 </body>
 </html>
