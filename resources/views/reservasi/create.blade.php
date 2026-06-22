@@ -374,8 +374,8 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left;background:var(--surface);border-radius:var(--r12);padding:1rem;margin-bottom:1.5rem">
         <div><div class="pc-item-label">Nama</div><div class="pc-item-val" id="p-qrNama">—</div></div>
         <div><div class="pc-item-label">NIK</div><div class="pc-item-val" id="p-qrNik" style="font-family:var(--font-mono);font-size:13px">—</div></div>
-        <div><div class="pc-item-label">Tanggal MCU</div><div class="pc-item-val">07 Jun 2026</div></div>
-        <div><div class="pc-item-label">Perusahaan</div><div class="pc-item-val">PT. Nusantara MS</div></div>
+        <div><div class="pc-item-label">Tanggal MCU</div><div class="pc-item-val" id="viewTanggal"></div></div>
+        <div><div class="pc-item-label">Perusahaan</div><div class="pc-item-val" id="viewPerusahaan"></div></div>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn btn-blue" style="flex:1;justify-content:center;padding:14px" onclick="toast('QR Code disimpan ke perangkat.','ok')">
@@ -458,7 +458,9 @@ function cariPerusahaan(patientid){
 	fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/companies/getpatient/'+patientid)
 	.then(yyy => yyy.json())
 	.then((rw) => {
+		const formattedDate = new Date().toLocaleDateString('en-GB'); 
 		document.getElementById("viewPerusahaan").innerHTML=rw.data[0].name || "-";
+		document.getElementById("viewTanggal").innerHTML=formattedDate;
 	})
 }
 
