@@ -883,7 +883,7 @@ async function pSubmit(){
                           throw new Error('Request gagal');
                         }
                         return response.json();
-				  		localStorage.removeItem('emcu_peserta_2026'); 
+				  		          localStorage.removeItem('emcu_peserta_2026'); 
                       })
                       .then(data => {
                         console.log('Sukses:', data);
@@ -902,11 +902,11 @@ async function pSubmit(){
       alert('Terjadi kesalahan koneksi');
     }
 
-  const saved=upsertPeserta(peserta);
+  // const saved=upsertPeserta(peserta);
   pCurrentData=peserta;
   renderPStep(3);
   //renderSavedList();
-  toast(saved?'Data berhasil disimpan & QR siap ditunjukkan.':'Data tersimpan sementara (storage penuh).',saved?'ok':'err');
+  // toast(saved?'Data berhasil disimpan & QR siap ditunjukkan.':'Data tersimpan sementara (storage penuh).',saved?'ok':'err');
 
 }
 
