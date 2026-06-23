@@ -75,19 +75,21 @@
             </div>
 
             <div class="form-item">
-              <label class="form-label">Nama Depan</label>
+              <label class="form-label">Nama Lengkap</label>
 
               <div class="input-group">
                 <span class="input-group-text">
                   <i class="bi bi-person"></i>
                 </span>
 
-                <input type="text" id="nama_depan" class="form-control" placeholder="Masukkan nama depan" required>
+                <select id="fullname_all" class="form-control" required>
+
+                </select>
               </div>
             </div>
 
             <!-- Nama Belakang -->
-            <div class="form-item">
+            <!-- <div class="form-item">
               <label class="form-label">Nama Belakang (Optional)</label>
 
               <div class="input-group">
@@ -97,7 +99,7 @@
 
                 <input type="text" id="nama_belakang" class="form-control" placeholder="Masukkan nama belakang"> 
               </div>
-            </div>
+            </div> -->
 
             <!-- Jenis Kelamin -->
             <div class="form-item">
@@ -159,7 +161,7 @@
             </div>
 
             <div class="form-item">
-              <label class="form-label"> Company </label>
+              <label class="form-label"> Company Master (MCU) </label>
 
               <div class="input-group">
                 <span class="input-group-text">
@@ -167,6 +169,20 @@
                 </span>
 
                 <select class="form-control" id="companies_all" required>
+                  
+                </select>
+              </div>
+            </div>
+
+            <div class="form-item">
+              <label class="form-label"> Company Tera(API) </label>
+
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-building"></i>
+                </span>
+
+                <select class="form-control" id="id_perusahaan" required>
                   
                 </select>
               </div>
@@ -198,20 +214,7 @@
               </div>
             </div>
 
-            <div class="form-item">
-              <label class="form-label"> Package </label>
-
-              <div class="input-group">
-                <span class="input-group-text">
-                  <i class="bi bi-building"></i>
-                </span>
-
-                <select class="form-control" id="packages_all" onchange="getDoctorPackage(this)" required>
-                  
-                </select>
-              </div>
-            </div>
-
+            
             <div class="form-item">
               <label class="form-label"> Doctor Coordinator </label>
 
@@ -226,21 +229,25 @@
               </div>
             </div>
 
-            <div class="form-item">
-              <label class="form-label"> Detail Package </label>
+            <div class="form-item full">
+              <label class="form-label"> Package </label>
 
               <div class="input-group">
                 <span class="input-group-text">
                   <i class="bi bi-building"></i>
                 </span>
 
-                 <div class="row" id="resultDokterPackage">
-
-                 </div>
-               
+                <select class="form-control" id="packages_all" onchange="getDoctorPackage(this)" required>
+                  
+                </select>
               </div>
             </div>
 
+            <div class="form-item full" id="resultDokterPackage">
+
+            </div>
+
+          
             <!-- Alamat -->
             <div class="form-item full">
               <label class="form-label">Alamat</label>
@@ -303,8 +310,10 @@
 
   window.addEventListener("load", async () => {
     await getCompanyAll();
+    await getCompanyTera();
     await getPackageMcu();
     await getDoctorCoordinator();
+    await getFullname();
   })
 
   function getCompanyAll(){
@@ -317,6 +326,19 @@
             ddd += `<option value="${element?.company_id}">${element?.name}</option>`;
         })
         document.getElementById("companies_all").innerHTML= ddd;
+    })
+  }
+
+  function getCompanyTera(){
+    fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-company')
+    .then(respo => respo.json())
+    .then((compa) => {
+      // console.log(compa)
+        var dddd = `<option value="NULL">Choose Company Tera</option>`;
+        compa?.payload?.forEach((elements , index) => {
+            dddd += `<option value="${elements?.id_perusahaan}">${elements?.nama_perusahaan}</option>`;
+        })
+        document.getElementById("id_perusahaan").innerHTML= dddd;
     })
   }
 
@@ -344,6 +366,59 @@
     })
   }
 
+  async function getDoctorPackage(e) {
+    document.getElementById('id_jenis_dokter').value =
+        e.selectedOptions[0].dataset.doctor;
+    const split = e.selectedOptions[0].dataset.doctor.split(',');
+    const requests = split.map(id =>
+        fetch(
+            `https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-doctor-package?id_jenis_dokter=${id}`
+        ).then(res => res.json())
+    );
+    const results = await Promise.all(requests);
+    let html = '';
+    results.forEach(data => {
+        let title = '';
+        let option = '';
+        data.payload.forEach((val, key) => {
+            if (val.id_dokter && val.nama_dokter && val.jenis_dokter) {
+                if (key === 0) title = val.jenis_dokter;
+                option += `
+                    <option value="${val.id_dokter}">
+                        ${val.nama_dokter}
+                    </option>
+                `;
+            }
+        });
+        html += `
+              <label class="form-label"> Doctor Package (${title})</label>
+
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-building"></i>
+                </span>
+
+                 <select id="id_dokter[]" name="id_dokter[]" class="form-control">
+                      <option>Choose</option>
+                      ${option}
+                  </select>
+              </div>
+        `;
+    });
+    document.getElementById("resultDokterPackage").innerHTML = html;
+  }
+
+  function getFullname(){
+    fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/list-patienst')
+    .then(respons => respons.json())
+    .then((fullnames) => {
+        var rrrrr = `<option value="NULL">Choose Fullname</option>`;
+        fullnames?.payload?.forEach((rowsss , index) => {
+            rrrrr += `<option value="${rowsss.patient_id}|${rowsss.fullname}">${rowsss.fullname} - ${rowsss.birth}</option>`;
+        })
+        document.getElementById("fullname_all").innerHTML= rrrrr;
+    })
+  }
 
   const form = document.getElementById('formPasien');
 
@@ -360,11 +435,11 @@
     btnLoading.style.display = 'inline-block';
 
     const namaDepan = document.getElementById('nama_depan').value || " - ";
-    const namaBelakang = document.getElementById('nama_belakang').value || " - ";
+    // const namaBelakang = document.getElementById('nama_belakang').value || " - ";
 
     const payload = {
       title: document.getElementById('title').value,
-      fullname: namaDepan + ' ' + namaBelakang,
+      fullname: namaDepan,
       nik: document.getElementById('nik').value,
       gender: document.getElementById('gender').value,
       email: document.getElementById('email').value,
@@ -416,59 +491,28 @@
 
     }
   });
-
-  function getDoctorPackage(e){
-          document.getElementById('id_jenis_dokter').value = e.selectedOptions[0].dataset.doctor;
-          let split = e.selectedOptions[0].dataset.doctor.split(',');
-          let html = '';
-          split.map(res => {
-              fetch(`https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-doctor-package?id_jenis_dokter=${res}`)
-              .then(ddd => ddd.json())
-              .then((dddd) => {
-                    console.log(dddd);
-              })
-          });
-  }
-
-  // $(document).on('change', '#packages_all', function(){
-  //         let element = $(this).find('option:selected'); 
-  //         let idDokter = element.attr("data-doctor"); 
-  //         $('#id_jenis_dokter').val(idDokter)
-  //         let split = idDokter.split(',');
-  //         let html = '';
-  //         split.map(res => {
-  //             getData(`https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-doctor-package?id_jenis_dokter=${res}`,(type, data) => {
-  //                 if(type === 'success'){
-  //                     if(data.status == 200){
-  //                         let res = data.payload;
-  //                         let option = '<option></option>';
-  //                         let title = '';
-  //                         $.each(res, function (key, val) {
-  //                             if(val.id_dokter && val.nama_dokter && val.jenis_dokter){
-  //                                 if(key === 0) title = val.jenis_dokter
-  //                                 option += `<option value="${val.id_dokter}">${val.nama_dokter}</option>`
-  //                             }
-  //                         });
-  //                         html += `
-  //                             <div class="col-sm-6 col-12">
-  //                                 <div class="form-group">
-  //                                     <label for="basicInput">Doctor Package <span class="fw-bold">(${title})</span> <span class="text-danger">*</span></label>
-  //                                     <select name="id_dokter[]" class="select2" style="width: 100%">${option}</select>
-  //                                 </div>
-  //                             </div>
-  //                         `;
-  //                         $('#resultDokterPackage').html(html)
-  //                         $('.select2').select2({
-  //                             placeholder: "Please Select",
-  //                             allowClear: true
-  //                         })
-  //                     }
-  //                 } else{
-  //                     console.log('error')
-  //                 }
-  //             })
-  //         })
-  //     })
 </script>
+
+
+<!-- https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu -->
+<!-- alamat: "",
+company_id: "137bf434-3f71-4a7c-8033-7511b9f3b44e,
+department: "staff",
+id_dokter[]: "4100",
+id_dokter_koordinator: "4082",
+id_jenis_dokter: "-2,-1,1,2"
+id_paket: "1501"
+id_perusahaan: "305"
+jenis_kelamin: "m"
+kode_area_telp: "62"
+lokasi: "jakarta"
+nama_lengkap: "ANTOK SETYAWAN"
+nik: "23423498234"
+no_hp: "472394289384"
+no_rm: "057668"
+no_telp: "237492387492384"
+tanggal_lahir: "1987-04-20"
+tempat_lahir: "ACEH"
+title: "" -->
 
 </html>
