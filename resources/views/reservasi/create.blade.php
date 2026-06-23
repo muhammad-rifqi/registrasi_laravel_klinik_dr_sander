@@ -239,17 +239,56 @@
 
           <!-- Perusahaan -->
           <div style="grid-column:1/-1">
-            <label class="field-label">Perusahaan</label>
+            <label class="field-label">Perusahaan Master (MCU)</label>
             <div style="background:var(--blue-l);border:2px solid rgba(26,111,212,0.2);border-radius:var(--r8);padding:12px 16px;display:flex;align-items:center;gap:10px">
               <span style="font-size:10px;font-weight:700;background:var(--blue);color:white;padding:3px 8px;border-radius:6px;letter-spacing:.5px;flex-shrink:0">API</span>
               <span style="font-size:14px;font-weight:600;color:var(--ink-2); width:100%;">
-				        <select style="width:100%; border: 0px; padding: 4px; display:none;" id="p-company_all" required>
+				        <select class="sel" style="width:100%; border: 0px; padding: 4px; display:none;" id="p-company_all" required>
                   
                 </select>
-				  <span id="viewPerusahaan"></span>
-			  </span>
+                  <span id="viewPerusahaan"></span>
+                </span>
             </div>
           </div>
+
+          <div style="grid-column:1/-1" id="abc">
+            <label class="field-label">Perusahaan Tera (API)</label>
+            <div style="background:var(--blue-l);border:2px solid rgba(26,111,212,0.2);border-radius:var(--r8);padding:12px 16px;display:flex;align-items:center;gap:10px">
+              <span style="font-size:10px;font-weight:700;background:var(--blue);color:white;padding:3px 8px;border-radius:6px;letter-spacing:.5px;flex-shrink:0">API</span>
+              <span style="font-size:14px;font-weight:600;color:var(--ink-2); width:100%;">
+				        <select class="sel" style="width:100%; border: none; padding: 4px;" id="p_perusahaan_tera" required>
+                  
+                </select>
+                </span>
+            </div>
+          </div>
+
+          
+          <div style="grid-column:1/-1" id="def">
+            <label class="field-label" id="lbl-user">Doktor Koordinator <span style="color:#E07520">*</span></label>
+            <div class="inp-icon-wrap">
+              <select class="sel" id="p_koordinator" style="width:100%; padding: 7px; border: 1px solid #006699; border-radius: 3px;">
+              
+              </select>
+            </div>
+          </div>
+
+          <div style="grid-column:1/-1" id="ghi">
+            <label class="field-label" id="lbl-user"> Paket <span style="color:#E07520">*</span></label>
+            <div class="inp-icon-wrap">
+              <select class="sel" id="p_paket" style="width:100%; padding: 7px; border: 1px solid #006699; border-radius: 3px;" onchange="getDoctorPackage(this)">
+              
+              </select>
+            </div>
+          </div>
+
+           <input type="hidden" name="id_jenis_dokter" id="id_jenis_dokter">
+
+          <div id="resultDokterPackage" style="grid-column:1/-1">
+
+          </div>
+
+
         </div>
 
         <div class="footer-row">
@@ -420,6 +459,10 @@ function findByNik(nik){
   if(m) {
 	  cariPerusahaan(m.patient_id);
 	  document.getElementById("p-company_all").style="display:none;";
+    document.getElementById("ghi").style="display:none;";
+    document.getElementById("abc").style="display:none;";
+    document.getElementById("def").style="display:none;";
+    document.getElementById("resultDokterPackage").style="display:none;";
 	  return{data:m,source:'mock'};
   }
   return null;
@@ -478,6 +521,9 @@ window.addEventListener('DOMContentLoaded',()=>{
   buildExamGrid();
   renderSavedList();
   getCompanyAll();
+  getCompanyTera();
+  getDoctorCoordinator()
+  getPackageMcu();
 });
 
 // ══════════════════════════════════════════
@@ -806,7 +852,12 @@ async function pSubmit(){
     pastIllness:document.getElementById('p-pastIllness').value.trim(),
     familyHistory:document.getElementById('p-familyHistory').value.trim(),
     patient_id : document.getElementById('p_patient_id').value.trim(),
-	p_company_all:document.getElementById('p-company_all').value.trim(),
+	  p_company_all:document.getElementById('p-company_all').value.trim(),
+    p_perusahaan_tera:document.getElementById('p_perusahaan_tera').value.trim(),
+    p_koordinator:document.getElementById('p_koordinator').value.trim(),
+    p_paket:document.getElementById('p_paket').value.trim(),
+    id_jenis_dokter:document.getElementById('id_jenis_dokter').value.trim(),
+    id_dokter:document.getElementById('id_dokter').value.trim(),
     habits:getHabitData(),
     physicalExam:getExamData(),
     registeredAt:new Date().toISOString(),
@@ -830,12 +881,17 @@ async function pSubmit(){
       phone_code: "62",
       medical_record_number: null,
       place_of_birth: '-',
-      patients_id : peserta.patient_id
+      patients_id : peserta.peserta.patient_id,
+      id_paket : peserta.p_paket,
+      id_perusahaan : peserta.p_perusahaan_tera,
+      id_dokter_koordinator : peserta.p_koordinator,
+      company_id : peserta.p_company_all,
+      id_dokter : id_dokter,
     };
 
     try {
       const response = await fetch(
-        'https://dev.klinikdrsanderb-emcu.com/api/v1/patients/storepatients',
+        'https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu',
         {
           method: 'POST',
           headers: {
@@ -1147,6 +1203,82 @@ function getCompanyAll(){
         document.getElementById("p-company_all").innerHTML= ddd;
     })
  }
+
+ function getCompanyTera(){
+    fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-company')
+    .then(respo => respo.json())
+    .then((compa) => {
+        var dddd = `<option value="NULL">Choose Company Tera</option>`;
+        compa?.payload?.forEach((elements , index) => {
+            dddd += `<option value="${elements?.id_perusahaan}">${elements?.nama_perusahaan}</option>`;
+        })
+        document.getElementById("p_perusahaan_tera").innerHTML= dddd;
+    })
+  }
+
+  function getPackageMcu(){
+    fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-package')
+    .then(res => res.json())
+    .then((packages) => {
+        var rrr = `<option value="NULL">Choose Package</option>`;
+        packages?.payload?.forEach((rows , index) => {
+            rrr += `<option value="${rows.id_paket}" data-doctor="${rows.id_jenis_dokter}">${rows.nama_paket}</option>`;
+        })
+        document.getElementById("p_paket").innerHTML= rrr;
+    })
+  }
+
+  function getDoctorCoordinator(){
+    fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-doctor-coordinator')
+    .then(respon => respon.json())
+    .then((coordination) => {
+        var rrrr = `<option value="NULL">Choose Coordinator</option>`;
+        coordination?.payload?.forEach((rowss , index) => {
+            rrrr += `<option value="${rowss.id_dokter}">${rowss.nama_dokter}</option>`;
+        })
+        document.getElementById("p_koordinator").innerHTML= rrrr;
+    })
+  }
+
+  async function getDoctorPackage(e) {
+    document.getElementById('id_jenis_dokter').value =
+        e.selectedOptions[0].dataset.doctor;
+    const split = e.selectedOptions[0].dataset.doctor.split(',');
+    const requests = split.map(id =>
+        fetch(
+            `https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-doctor-package?id_jenis_dokter=${id}`
+        ).then(res => res.json())
+    );
+    const results = await Promise.all(requests);
+    let html = '';
+    results.forEach(data => {
+        let title = '';
+        let option = '';
+        data.payload.forEach((val, key) => {
+            if (val.id_dokter && val.nama_dokter && val.jenis_dokter) {
+                if (key === 0) title = val.jenis_dokter;
+                option += `
+                    <option value="${val.id_dokter}">
+                        ${val.nama_dokter}
+                    </option>
+                `;
+            }
+        });
+        html += `
+                 <p><label> Doctor Package (${title})</label></p>
+                 <select class="sel" id="id_dokter[]" name="id_dokter[]" style="width:100%; padding: 5px; border: 1px solid #006699;">
+                      <option>Choose</option>
+                      ${option}
+                  </select>
+        `;
+    });
+    const container = document.getElementById("resultDokterPackage");
+    if (container) {
+        container.innerHTML = html;
+    } else {
+        console.error("Element #resultDokterPackage tidak ditemukan");
+    }
+  }
 	
 </script>
 </body>

@@ -494,8 +494,9 @@
 </script>
 
 
-<!-- https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu -->
-<!-- alamat: "",
+<!--  -->
+<!-- 
+alamat: "",
 company_id: "137bf434-3f71-4a7c-8033-7511b9f3b44e,
 department: "staff",
 id_dokter[]: "4100",
