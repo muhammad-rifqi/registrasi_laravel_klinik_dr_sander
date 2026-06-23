@@ -836,7 +836,7 @@ async function pSubmit(){
   const title=document.getElementById('p-title-sel').value;
   const nikRaw=document.getElementById('p-nikField').value.replace(/\s/g,'');
   const searchNik=document.getElementById('p-nikInp').value.replace(/\s/g,'');
-  const peserta={
+   const peserta={
     id:pCurrentData?.id||'REG-'+Date.now(),
     title,
     nama:document.getElementById('p-nama').value.trim(),
@@ -857,7 +857,7 @@ async function pSubmit(){
     p_koordinator:document.getElementById('p_koordinator').value.trim(),
     p_paket:document.getElementById('p_paket').value.trim(),
     id_jenis_dokter:document.getElementById('id_jenis_dokter').value.trim(),
-    id_dokter:document.getElementById('id_dokter').value.trim(),
+    id_dokter:document.getElementById('id_dokter[]').value.trim(),
     habits:getHabitData(),
     physicalExam:getExamData(),
     registeredAt:new Date().toISOString(),
@@ -870,25 +870,36 @@ async function pSubmit(){
       fullname: peserta.nama,
       nik: peserta.nik,
       gender: peserta.jenisKelamin,
+      jenis_kelamin: peserta.jenisKelamin,
       email: peserta.email,
       place: '-',
       department: peserta.dept,
       mobile_phone: peserta.hp,
+      no_hp: peserta.hp,
+      no_rm: '057668',
       status: "active",
       company_all: peserta.p_company_all,
       address: '-',
+      lokasi: '-',
       birth: peserta.tglLahir,
+      tanggal_lahir: peserta.tglLahir,
       phone_code: "62",
-      medical_record_number: null,
-      place_of_birth: '-',
-      patients_id : peserta.peserta.patient_id,
+      medical_record_number: '0749832',
+      place_of_birth: 'JAKARTA',
+      tempat_lahir: 'ACEH',
+      kode_area_telp: '62',
+      patients_id : peserta.patient_id || '-',
       id_paket : peserta.p_paket,
       id_perusahaan : peserta.p_perusahaan_tera,
       id_dokter_koordinator : peserta.p_koordinator,
       company_id : peserta.p_company_all,
-      id_dokter : id_dokter,
+      'id_dokter[]' : peserta.id_dokter,
+      nama_lengkap: peserta.nama,
+      id_jenis_dokter : peserta.id_jenis_dokter
     };
 
+    console.log(payload)
+    
     try {
       const response = await fetch(
         'https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu',
@@ -901,10 +912,12 @@ async function pSubmit(){
         }
       );
       const result = await response.json();
+      console.log(result);
+      console.log(response);
       if (response.ok) {
         // window.location.href=`/reservasi/qrcode/${result?.payload?.patient_id}`
             console.log(result);
-            if(result.status == 201){
+            if(result.status == 200){
               await fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/patients/inserthistory', {
                       method: 'POST',
                       headers: {
