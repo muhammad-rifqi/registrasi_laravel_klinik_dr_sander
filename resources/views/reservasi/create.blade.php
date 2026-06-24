@@ -58,7 +58,7 @@
       <div class="sect">Tipe Identifikasi</div>
       <div style="display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:var(--r12);padding:4px;gap:2px;margin-bottom:1rem">
         <button id="p-opt-nik" onclick="pSwitchId('nik')" style="padding:8px 20px;border-radius:var(--r8);font-size:13px;font-weight:600;cursor:pointer;color:var(--blue);background:var(--white);box-shadow:0 1px 6px rgba(13,28,46,0.1);border:none;font-family:var(--font);transition:all .18s">NIK KTP</button>
-        <button id="p-opt-pass" onclick="pSwitchId('passport')" style="padding:8px 20px;border-radius:var(--r8);font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-3);background:transparent;border:none;font-family:var(--font);transition:all .18s">No. Paspor</button>
+        <!-- <button id="p-opt-pass" onclick="pSwitchId('passport')" style="padding:8px 20px;border-radius:var(--r8);font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-3);background:transparent;border:none;font-family:var(--font);transition:all .18s">No. Paspor</button> -->
       </div>
 
       <div style="background:var(--blue-l);border:2px solid rgba(26,111,212,0.2);border-radius:var(--r16);padding:1.25rem">
@@ -246,13 +246,13 @@
 				        <select class="sel" style="width:100%; border: 0px; padding: 4px; display:none;" id="p-company_all" required>
                   
                 </select>
-                  <span id="viewPerusahaan"></span>
+                <!-- <span id="viewPerusahaan"></span> -->
                 </span>
             </div>
           </div>
 
           <div style="grid-column:1/-1" id="abc">
-            <label class="field-label">Perusahaan Tera (API)</label>
+            <label class="field-label">Perusahaan (API)</label>
             <div style="background:var(--blue-l);border:2px solid rgba(26,111,212,0.2);border-radius:var(--r8);padding:12px 16px;display:flex;align-items:center;gap:10px">
               <span style="font-size:10px;font-weight:700;background:var(--blue);color:white;padding:3px 8px;border-radius:6px;letter-spacing:.5px;flex-shrink:0">API</span>
               <span style="font-size:14px;font-weight:600;color:var(--ink-2); width:100%;">
@@ -458,11 +458,11 @@ function findByNik(nik){
   const m=MOCK_DB.find(p=>p.nik===nik);
   if(m) {
 	  cariPerusahaan(m.patient_id);
-	  document.getElementById("p-company_all").style="display:none;";
-    document.getElementById("ghi").style="display:none;";
-    document.getElementById("abc").style="display:none;";
-    document.getElementById("def").style="display:none;";
-    document.getElementById("resultDokterPackage").style="display:none;";
+	  // document.getElementById("p-company_all").style="display:none;";
+    // document.getElementById("ghi").style="display:none;";
+    // document.getElementById("abc").style="display:none;";
+    // document.getElementById("def").style="display:none;";
+    // document.getElementById("resultDokterPackage").style="display:none;";
 	  return{data:m,source:'mock'};
   }
   return null;
@@ -503,7 +503,16 @@ function cariPerusahaan(patientid){
 	.then((rw) => {
 		const formattedDate = new Date().toLocaleDateString('en-GB'); 
 		document.getElementById("viewPerusahaan").innerHTML=rw.data[0].name || "-";
+    document.getElementById("p-company_all").value = rw.data[0].company_id;
 		document.getElementById("viewTanggal").innerHTML=formattedDate;
+	})
+}
+
+function ambilIDPerusahaan(Companyid){
+	fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/companies/detail/'+Companyid)
+	.then(yyy => yyy.json())
+	.then((rw) => {
+        return rw?.payload?.company_id;
 	})
 }
 
@@ -836,6 +845,15 @@ async function pSubmit(){
   const title=document.getElementById('p-title-sel').value;
   const nikRaw=document.getElementById('p-nikField').value.replace(/\s/g,'');
   const searchNik=document.getElementById('p-nikInp').value.replace(/\s/g,'');
+  const valIdokter =  [...document.querySelectorAll('.id_dokter')].map(select => select.value);
+    // const angka = [];
+    // const nama_dokter = [];
+    // valIdokter.forEach(item => {
+    //     const [a, n] = item.split('|');
+    //     angka.push(Number(a));
+    //     nama_dokter.push(n);
+    // });
+
    const peserta={
     id:pCurrentData?.id||'REG-'+Date.now(),
     title,
@@ -857,7 +875,7 @@ async function pSubmit(){
     p_koordinator:document.getElementById('p_koordinator').value.trim(),
     p_paket:document.getElementById('p_paket').value.trim(),
     id_jenis_dokter:document.getElementById('id_jenis_dokter').value.trim(),
-    id_dokter:document.getElementById('id_dokter[]').value.trim(),
+    id_dokter: valIdokter,
     habits:getHabitData(),
     physicalExam:getExamData(),
     registeredAt:new Date().toISOString(),
@@ -876,7 +894,7 @@ async function pSubmit(){
       department: peserta.dept,
       mobile_phone: peserta.hp,
       no_hp: peserta.hp,
-      no_rm: '057668',
+      no_rm: '00000',
       status: "active",
       company_all: peserta.p_company_all,
       address: '-',
@@ -884,22 +902,20 @@ async function pSubmit(){
       birth: peserta.tglLahir,
       tanggal_lahir: peserta.tglLahir,
       phone_code: "62",
-      medical_record_number: '0749832',
-      place_of_birth: 'JAKARTA',
-      tempat_lahir: 'ACEH',
+      medical_record_number: '000000',
+      place_of_birth: '-',
+      tempat_lahir: '-',
       kode_area_telp: '62',
       patients_id : peserta.patient_id || '-',
       id_paket : peserta.p_paket,
       id_perusahaan : peserta.p_perusahaan_tera,
       id_dokter_koordinator : peserta.p_koordinator,
       company_id : peserta.p_company_all,
-      'id_dokter[]' : peserta.id_dokter,
+      id_dokter : peserta.id_dokter,
       nama_lengkap: peserta.nama,
       id_jenis_dokter : peserta.id_jenis_dokter
     };
 
-    console.log(payload)
-    
     try {
       const response = await fetch(
         'https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu',
@@ -912,11 +928,7 @@ async function pSubmit(){
         }
       );
       const result = await response.json();
-      console.log(result);
-      console.log(response);
       if (response.ok) {
-        // window.location.href=`/reservasi/qrcode/${result?.payload?.patient_id}`
-            console.log(result);
             if(result.status == 200){
               await fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/patients/inserthistory', {
                       method: 'POST',
@@ -925,7 +937,7 @@ async function pSubmit(){
                       },
                       
                       body: JSON.stringify({
-                        patient_id : peserta.patient_id || result?.payload?.patient_id,
+                        patient_id : peserta.patient_id || result?.patient_id,
                         color_blind : 1,
                         eye : peserta.physicalExam.eye.normal,
                         tht : ' - ',
@@ -945,6 +957,12 @@ async function pSubmit(){
                         tooth_or_mouth : peserta.physicalExam.tooth.normal + '##' + peserta.physicalExam.tooth.note,
                         abdomen : peserta.physicalExam.abdomen.normal,
                         etc : peserta.physicalExam.etc.normal,
+                        doctor_coordinator : peserta.id_dokter_koordinator,
+                        fullname : peserta.nama,
+                        nik: peserta.nik,
+                        department: peserta.dept,
+                        birth: peserta.tglLahir,
+                        id_paket : peserta.id_paket
                       })
                     })
                       .then(response => {
@@ -955,7 +973,9 @@ async function pSubmit(){
 				  		          localStorage.removeItem('emcu_peserta_2026'); 
                       })
                       .then(data => {
-                        console.log('Sukses:', data);
+                        console.log(data);
+                        cariPerusahaan(data?.payload?.patient_id)
+                        localStorage.removeItem('emcu_peserta_2026');
                       })
                       .catch(error => {
                         console.error('Error:', error);
@@ -970,6 +990,8 @@ async function pSubmit(){
       console.error(error);
       alert('Terjadi kesalahan koneksi');
     }
+
+    
 
   // const saved=upsertPeserta(peserta);
   pCurrentData=peserta;
@@ -1209,9 +1231,9 @@ function getCompanyAll(){
     .then(resp => resp.json())
     .then((comp) => {
       // console.log(comp)
-        var ddd = `<option value="NULL">Choose Company</option>`;
+        var ddd = `<option value="NULL">Master Company (MCU)</option>`;
         comp?.payload?.forEach((element , index) => {
-            ddd += `<option value="${element?.company_id}">${element?.name}</option>`;
+              ddd += `<option value="${element?.company_id}">${element?.name}</option>`;
         })
         document.getElementById("p-company_all").innerHTML= ddd;
     })
@@ -1221,7 +1243,7 @@ function getCompanyAll(){
     fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-company')
     .then(respo => respo.json())
     .then((compa) => {
-        var dddd = `<option value="NULL">Choose Company Tera</option>`;
+        var dddd = `<option value="NULL">Company *</option>`;
         compa?.payload?.forEach((elements , index) => {
             dddd += `<option value="${elements?.id_perusahaan}">${elements?.nama_perusahaan}</option>`;
         })
@@ -1279,7 +1301,7 @@ function getCompanyAll(){
         });
         html += `
                  <p><label> Doctor Package (${title})</label></p>
-                 <select class="sel" id="id_dokter[]" name="id_dokter[]" style="width:100%; padding: 5px; border: 1px solid #006699;">
+                 <select class="sel id_dokter" name="id_dokter[]" style="width:100%; padding: 5px; border: 1px solid #006699;">
                       <option>Choose</option>
                       ${option}
                   </select>
