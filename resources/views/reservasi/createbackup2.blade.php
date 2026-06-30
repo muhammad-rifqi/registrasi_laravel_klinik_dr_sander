@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -8,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{asset('asset/css/registrasi.css')}}">
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 </head>
 <body>
 
@@ -60,7 +58,7 @@
       <div class="sect">Tipe Identifikasi</div>
       <div style="display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:var(--r12);padding:4px;gap:2px;margin-bottom:1rem">
         <button id="p-opt-nik" onclick="pSwitchId('nik')" style="padding:8px 20px;border-radius:var(--r8);font-size:13px;font-weight:600;cursor:pointer;color:var(--blue);background:var(--white);box-shadow:0 1px 6px rgba(13,28,46,0.1);border:none;font-family:var(--font);transition:all .18s">NIK KTP</button>
-		  <!--button id="p-opt-pass" onclick="pSwitchId('passport')" style="padding:8px 20px;border-radius:var(--r8);font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-3);background:transparent;border:none;font-family:var(--font);transition:all .18s">No. Paspor</button-->
+        <!-- <button id="p-opt-pass" onclick="pSwitchId('passport')" style="padding:8px 20px;border-radius:var(--r8);font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-3);background:transparent;border:none;font-family:var(--font);transition:all .18s">No. Paspor</button> -->
       </div>
 
       <div style="background:var(--blue-l);border:2px solid rgba(26,111,212,0.2);border-radius:var(--r16);padding:1.25rem">
@@ -181,7 +179,7 @@
             <label class="field-label" id="lbl-noHp">No. HP / WA <span style="color:#E07520">*</span></label>
             <div class="inp-icon-wrap">
               <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.65 3.35 2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l.98-.87a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              <input maxlength="12" id="p-noHp" type="tel" placeholder="08xx-xxxx-xxxx" class="inp"
+              <input id="p-noHp" maxlength="10" type="tel" placeholder="08xx-xxxx-xxxx" class="inp"
                 oninput="clearFieldError('p-noHp','lbl-noHp')"
                 onfocus="this.style.borderColor='var(--blue)';this.style.boxShadow='0 0 0 3px rgba(26,111,212,0.1)'"
                 onblur="this.style.borderColor='var(--line)';this.style.boxShadow='none'"/>
@@ -207,7 +205,7 @@
             <label class="field-label" id="lbl-noKar">No. Karyawan <span style="color:#E07520">*</span></label>
             <div class="inp-icon-wrap">
               <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-              <input maxlength="15" id="p-noKar" type="text" placeholder="EMP-001234" class="inp"
+              <input maxlength="10" id="p-noKar" type="text" placeholder="EMP-001234" class="inp"
                 oninput="clearFieldError('p-noKar','lbl-noKar')"
                 onfocus="this.style.borderColor='var(--blue)';this.style.boxShadow='0 0 0 3px rgba(26,111,212,0.1)'"
                 onblur="this.style.borderColor='var(--line)';this.style.boxShadow='none'"/>
@@ -241,17 +239,56 @@
 
           <!-- Perusahaan -->
           <div style="grid-column:1/-1">
+            <label class="field-label">Perusahaan Master (MCU)</label>
+            <div style="background:var(--blue-l);border:2px solid rgba(26,111,212,0.2);border-radius:var(--r8);padding:12px 16px;display:flex;align-items:center;gap:10px">
+              <span style="font-size:10px;font-weight:700;background:var(--blue);color:white;padding:3px 8px;border-radius:6px;letter-spacing:.5px;flex-shrink:0">Master</span>
+              <span style="font-size:14px;font-weight:600;color:var(--ink-2); width:100%;">
+				        <select class="sel" style="width:100%; border: 0px; padding: 4px; display:none;" id="p-company_all" required>
+                  
+                </select>
+                <!-- <span id="viewPerusahaan"></span> -->
+                </span>
+            </div>
+          </div>
+
+          <div style="grid-column:1/-1" id="abc">
             <label class="field-label">Perusahaan</label>
             <div style="background:var(--blue-l);border:2px solid rgba(26,111,212,0.2);border-radius:var(--r8);padding:12px 16px;display:flex;align-items:center;gap:10px">
               <span style="font-size:10px;font-weight:700;background:var(--blue);color:white;padding:3px 8px;border-radius:6px;letter-spacing:.5px;flex-shrink:0">API</span>
               <span style="font-size:14px;font-weight:600;color:var(--ink-2); width:100%;">
-				 <select style="width:100%; border: 0px; padding: 4px; display:none;" id="p-company_all" required>
+				        <select class="sel" style="width:100%; border: none; padding: 4px;" id="p_perusahaan_tera" required>
                   
                 </select>
-				  <span id="viewPerusahaan"></span>
-			  </span>
+                </span>
             </div>
           </div>
+
+          
+          <div style="grid-column:1/-1" id="def">
+            <label class="field-label" id="lbl-user">Doktor Koordinator <span style="color:#E07520">*</span></label>
+            <div class="inp-icon-wrap">
+              <select class="sel" id="p_koordinator" style="width:100%; padding: 7px; border: 1px solid #006699; border-radius: 3px;">
+              
+              </select>
+            </div>
+          </div>
+
+          <div style="grid-column:1/-1" id="ghi">
+            <label class="field-label" id="lbl-user"> Paket <span style="color:#E07520">*</span></label>
+            <div class="inp-icon-wrap">
+              <select class="sel" id="p_paket" style="width:100%; padding: 7px; border: 1px solid #006699; border-radius: 3px;" onchange="getDoctorPackage(this)">
+              
+              </select>
+            </div>
+          </div>
+
+           <input type="hidden" name="id_jenis_dokter" id="id_jenis_dokter">
+
+          <div id="resultDokterPackage" style="grid-column:1/-1">
+
+          </div>
+
+
         </div>
 
         <div class="footer-row">
@@ -292,7 +329,7 @@
       <p style="font-size:13px;color:var(--muted);margin-bottom:1.25rem;line-height:1.6">Isi dengan jujur — bersifat rahasia medis.</p>
 
       <!-- Color Blind — locked, dokter only (dipindah ke atas keluhan utama) -->
-      <!--div style="background:var(--amber-l);border:1.5px solid rgba(212,130,10,0.25);border-radius:var(--r12);padding:1rem;margin-bottom:1rem">
+      <div style="background:var(--amber-l);border:1.5px solid rgba(212,130,10,0.25);border-radius:var(--r12);padding:1rem;margin-bottom:1rem">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:.75rem">
           <svg style="width:14px;height:14px;stroke:var(--amber);fill:none;stroke-width:2;flex-shrink:0" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           <span style="font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.8px">Color Blind / Buta Warna — Diisi oleh Dokter MCU</span>
@@ -317,7 +354,7 @@
               style="width:100%;height:42px;border-radius:var(--r8);border:2px dashed rgba(212,130,10,0.35);background:rgba(255,255,255,0.6);padding:0 12px;font-family:var(--font);font-size:13px;color:var(--muted);cursor:not-allowed;opacity:0.7;outline:none"/>
           </div>
         </div>
-      </div-->
+      </div>
 
       <div style="display:flex;flex-direction:column;gap:1rem">
         <div>
@@ -344,14 +381,14 @@
     </div>
 
     <!-- Physical Examination -->
-    <!--div class="card">
+    <div class="card">
       <div class="sect" style="margin-top:0">Physical Examination / Pemeriksaan Fisik</div>
       <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;line-height:1.6">Toggle <strong>Normal</strong> jika hasil normal. Nonaktifkan dan isi keterangan jika ada temuan.</p>
 
       <div id="p-examContainer">
         <!-- rendered by JS -->
-      <!--/div>
-    </div-->
+      </div>
+    </div>
 
     <div class="card" style="padding:1rem 1.5rem">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
@@ -377,10 +414,10 @@
         <div><div class="pc-item-label">Nama</div><div class="pc-item-val" id="p-qrNama">—</div></div>
         <div><div class="pc-item-label">NIK</div><div class="pc-item-val" id="p-qrNik" style="font-family:var(--font-mono);font-size:13px">—</div></div>
         <div><div class="pc-item-label">Tanggal MCU</div><div class="pc-item-val" id="viewTanggal"></div></div>
-		  <div><div class="pc-item-label">Perusahaan</div><div class="pc-item-val" id="viewPerusahaan2"></div></div>
+        <div><div class="pc-item-label">Perusahaan</div><div class="pc-item-val" id="viewPerusahaan"></div></div>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn btn-blue" style="flex:1;justify-content:center;padding:14px" onclick="saveQRCode()">
+        <button class="btn btn-blue" style="flex:1;justify-content:center;padding:14px" onclick="toast('QR Code disimpan ke perangkat.','ok')">
           <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Simpan QR Code
         </button>
         <button class="btn btn-ghost" style="flex:1;justify-content:center;padding:14px" onclick="resetForm()">
@@ -413,26 +450,6 @@ function saveDB(db){
     return false
   }
 }
-	
-function normalizeDate(dateStr) {
-
-    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
-        return dateStr;
-    }
-
-    if (/^\d{2}-\d{2}-\d{4}$/.test(dateStr)) {
-        const [day, month, year] = dateStr.split('-');
-
-        const date = new Date(`${year}-${month}-${day}`);
-        if (isNaN(date.getTime())) {
-            throw new Error('Tanggal tidak valid');
-        }
-
-        return `${year}-${month}-${day}`;
-    }
-
-    throw new Error('Format tanggal tidak didukung');
-}
 
 function findByNik(nik){
   const db=getDB();
@@ -441,10 +458,11 @@ function findByNik(nik){
   const m=MOCK_DB.find(p=>p.nik===nik);
   if(m) {
 	  cariPerusahaan(m.patient_id);
-	  console.log(m)
-	  normalizeDate(m.birth)
-	  document.getElementById("p-company_all").style="display:none;";
-	  document.getElementById("p-tglLahir").value = normalizeDate(m.birth);
+	  // document.getElementById("p-company_all").style="display:none;";
+    // document.getElementById("ghi").style="display:none;";
+    // document.getElementById("abc").style="display:none;";
+    // document.getElementById("def").style="display:none;";
+    // document.getElementById("resultDokterPackage").style="display:none;";
 	  return{data:m,source:'mock'};
   }
   return null;
@@ -483,31 +501,21 @@ function cariPerusahaan(patientid){
 	fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/companies/getpatient/'+patientid)
 	.then(yyy => yyy.json())
 	.then((rw) => {
-		console.log(rw)
 		const formattedDate = new Date().toLocaleDateString('en-GB'); 
 		document.getElementById("viewPerusahaan").innerHTML=rw.data[0].name || "-";
-		document.getElementById("viewPerusahaan2").innerHTML=rw.data[0].name || "-";
+    document.getElementById("p-company_all").value = rw.data[0].company_id;
 		document.getElementById("viewTanggal").innerHTML=formattedDate;
 	})
 }
 
-	
-function saveQRCode(){
-
-	 const canvas =
-                document.querySelector("#p-qrCanvas");
-                    if (!canvas) {
-                        alert("QR belum tersedia");
-                        return;
-                    }
-                    const image = canvas.toDataURL("image/png");
-                    const link = document.createElement("a");
-                    link.href = image;
-                    link.download = `qr-pasien-${crypto.randomUUID()}.png`;
-                    link.click();
-                    alert("QR berhasil disimpan");
-	
+function ambilIDPerusahaan(Companyid){
+	fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/companies/detail/'+Companyid)
+	.then(yyy => yyy.json())
+	.then((rw) => {
+        return rw?.payload?.company_id;
+	})
 }
+
 // ══════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════
@@ -519,9 +527,12 @@ let pIdType='nik', pStep=1, pCurrentData=null;
 window.addEventListener('DOMContentLoaded',()=>{
   renderPStep(1);
   buildHabitGrid();
-  //buildExamGrid();
+  buildExamGrid();
   renderSavedList();
   getCompanyAll();
+  getCompanyTera();
+  getDoctorCoordinator()
+  getPackageMcu();
 });
 
 // ══════════════════════════════════════════
@@ -673,7 +684,7 @@ function pAutofill(p){
   document.getElementById('p-email').value=p.email||'';
   document.getElementById('p-noKar').value=p.karyawan||'';
   document.getElementById('p-dept').value=p.department||'';
-  //document.getElementById('p-tglLahir').value=p.birth||'';
+  document.getElementById('p-tglLahir').value=p.birth||'';
   document.getElementById('p_patient_id').value=p.patient_id||'';
   
   const nikRaw=p.nik||'';
@@ -834,7 +845,16 @@ async function pSubmit(){
   const title=document.getElementById('p-title-sel').value;
   const nikRaw=document.getElementById('p-nikField').value.replace(/\s/g,'');
   const searchNik=document.getElementById('p-nikInp').value.replace(/\s/g,'');
-  const peserta={
+  const valIdokter =  [...document.querySelectorAll('.id_dokter')].map(select => select.value);
+    // const angka = [];
+    // const nama_dokter = [];
+    // valIdokter.forEach(item => {
+    //     const [a, n] = item.split('|');
+    //     angka.push(Number(a));
+    //     nama_dokter.push(n);
+    // });
+
+   const peserta={
     id:pCurrentData?.id||'REG-'+Date.now(),
     title,
     nama:document.getElementById('p-nama').value.trim(),
@@ -850,9 +870,14 @@ async function pSubmit(){
     pastIllness:document.getElementById('p-pastIllness').value.trim(),
     familyHistory:document.getElementById('p-familyHistory').value.trim(),
     patient_id : document.getElementById('p_patient_id').value.trim(),
-	p_company_all:document.getElementById('p-company_all').value.trim(),
+	  p_company_all:document.getElementById('p-company_all').value.trim(),
+    p_perusahaan_tera:document.getElementById('p_perusahaan_tera').value.trim(),
+    p_koordinator:document.getElementById('p_koordinator').value.trim(),
+    p_paket:document.getElementById('p_paket').value.trim(),
+    id_jenis_dokter:document.getElementById('id_jenis_dokter').value.trim(),
+    id_dokter: valIdokter,
     habits:getHabitData(),
-    //physicalExam:getExamData(),
+    physicalExam:getExamData(),
     registeredAt:new Date().toISOString(),
   };
 
@@ -863,23 +888,37 @@ async function pSubmit(){
       fullname: peserta.nama,
       nik: peserta.nik,
       gender: peserta.jenisKelamin,
+      jenis_kelamin: peserta.jenisKelamin,
       email: peserta.email,
       place: '-',
       department: peserta.dept,
       mobile_phone: peserta.hp,
+      no_hp: peserta.hp,
+      no_rm: '00000',
       status: "active",
       company_all: peserta.p_company_all,
       address: '-',
+      lokasi: '-',
       birth: peserta.tglLahir,
+      tanggal_lahir: peserta.tglLahir,
       phone_code: "62",
-      medical_record_number: null,
+      medical_record_number: '000000',
       place_of_birth: '-',
-      patients_id : peserta.patient_id
+      tempat_lahir: '-',
+      kode_area_telp: '62',
+      patients_id : peserta.patient_id || '-',
+      id_paket : peserta.p_paket,
+      id_perusahaan : peserta.p_perusahaan_tera,
+      id_dokter_koordinator : peserta.p_koordinator,
+      company_id : peserta.p_company_all,
+      id_dokter : peserta.id_dokter,
+      nama_lengkap: peserta.nama,
+      id_jenis_dokter : peserta.id_jenis_dokter
     };
 
     try {
       const response = await fetch(
-        'https://dev.klinikdrsanderb-emcu.com/api/v1/patients/storepatients',
+        'https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu',
         {
           method: 'POST',
           headers: {
@@ -890,9 +929,7 @@ async function pSubmit(){
       );
       const result = await response.json();
       if (response.ok) {
-        // window.location.href=`/reservasi/qrcode/${result?.payload?.patient_id}`
-            console.log(result);
-            if(result.status == 201){
+            if(result.status == 200){
               await fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/patients/inserthistory', {
                       method: 'POST',
                       headers: {
@@ -900,18 +937,15 @@ async function pSubmit(){
                       },
                       
                       body: JSON.stringify({
-                        patient_id : peserta.patient_id || result?.payload?.patient_id,
-                        color_blind : ' - ',
-                        //eye : peserta.physicalExam.eye.normal,
-						eye : '-',
+                        patient_id : peserta.patient_id || result?.patient_id,
+                        color_blind : 1,
+                        eye : peserta.physicalExam.eye.normal,
                         tht : ' - ',
                         grievence : peserta.chiefComplaint,
                         post_ilness: peserta.pastIllness,
                         family_history_ilness: peserta.familyHistory,
-						thoraks : '-',
-                        //thoraks : peserta.physicalExam.thorax.normal,
-                        //extremitas : peserta.physicalExam.extremity.normal,
-						extremitas : '-',
+                        thoraks : peserta.physicalExam.thorax.normal,
+                        extremitas : peserta.physicalExam.extremity.normal,
                         is_smoke : peserta.habits.smoke,
                         smoke_a_day : '-',
                         is_alcohol : peserta.habits.alcohol,
@@ -919,14 +953,16 @@ async function pSubmit(){
                         is_sport : peserta.habits.sport,
                         sport_type : '-',
                         sport_freek_or_sunday : '-',
-                        //neck : peserta.physicalExam.neck.normal,
-						neck : '-',
-                        //tooth_or_mouth : peserta.physicalExam.tooth.normal + '##' + peserta.physicalExam.tooth.note,
-						tooth_or_mouth : '-',
-                        //abdomen : peserta.physicalExam.abdomen.normal,
-						abdomen : '-',
-                        //etc : peserta.physicalExam.etc.normal,
-						etc : '-',
+                        neck : peserta.physicalExam.neck.normal,
+                        tooth_or_mouth : peserta.physicalExam.tooth.normal + '##' + peserta.physicalExam.tooth.note,
+                        abdomen : peserta.physicalExam.abdomen.normal,
+                        etc : peserta.physicalExam.etc.normal,
+                        doctor_coordinator : peserta.id_dokter_koordinator,
+                        fullname : peserta.nama,
+                        nik: peserta.nik,
+                        department: peserta.dept,
+                        birth: peserta.tglLahir,
+                        id_paket : peserta.id_paket
                       })
                     })
                       .then(response => {
@@ -934,13 +970,12 @@ async function pSubmit(){
                           throw new Error('Request gagal');
                         }
                         return response.json();
-				  		localStorage.removeItem('emcu_peserta_2026'); 
+				  		          localStorage.removeItem('emcu_peserta_2026'); 
                       })
                       .then(data => {
-                        console.log('Sukses:', data);
-				        console.log(data)
-				  		cariPerusahaan(data?.payload?.patient_id)
-				  		localStorage.removeItem('emcu_peserta_2026'); 
+                        console.log(data);
+                        cariPerusahaan(data?.payload?.patient_id)
+                        localStorage.removeItem('emcu_peserta_2026');
                       })
                       .catch(error => {
                         console.error('Error:', error);
@@ -956,11 +991,13 @@ async function pSubmit(){
       alert('Terjadi kesalahan koneksi');
     }
 
-  //const saved=upsertPeserta(peserta);
+    
+
+  // const saved=upsertPeserta(peserta);
   pCurrentData=peserta;
   renderPStep(3);
   //renderSavedList();
-  //toast(saved?'Data berhasil disimpan & QR siap ditunjukkan.':'Data tersimpan sementara (storage penuh).',saved?'ok':'err');
+  // toast(saved?'Data berhasil disimpan & QR siap ditunjukkan.':'Data tersimpan sementara (storage penuh).',saved?'ok':'err');
 
 }
 
@@ -993,52 +1030,32 @@ const HABIT_LIST=[
   {id:'coffee', label:'Coffee', sub:'Kopi'},
   {id:'sport',  label:'Sport',  sub:'Olahraga'},
 ];
-//const EXAM_LIST=[
-//  {id:'eye',       label:'Eye',        sub:'Mata'},
-//  {id:'ent',       label:'ENT',        sub:'THT'},
-//  {id:'thorax',    label:'Thorax',     sub:'Thoraks'},
-//  {id:'extremity', label:'Extremity',  sub:'Extremitas'},
-//  {id:'neck',      label:'Neck',       sub:'Leher'},
-//  {id:'tooth',     label:'Tooth',      sub:'Gigi'},
-//  {id:'mouth',     label:'Mouth',      sub:'Mulut'},
-//  {id:'abdomen',   label:'Abdomen',    sub:'Perut'},
-//  {id:'etc',       label:'Etc',        sub:'Lain-lain'},
-// ];
+const EXAM_LIST=[
+  {id:'eye',       label:'Eye',        sub:'Mata'},
+  {id:'ent',       label:'ENT',        sub:'THT'},
+  {id:'thorax',    label:'Thorax',     sub:'Thoraks'},
+  {id:'extremity', label:'Extremity',  sub:'Extremitas'},
+  {id:'neck',      label:'Neck',       sub:'Leher'},
+  {id:'tooth',     label:'Tooth',      sub:'Gigi'},
+  {id:'mouth',     label:'Mouth',      sub:'Mulut'},
+  {id:'abdomen',   label:'Abdomen',    sub:'Perut'},
+  {id:'etc',       label:'Etc',        sub:'Lain-lain'},
+];
 
 function buildHabitGrid(){
   const c=document.getElementById('p-habitContainer');
-	console.log(c)
-  c.innerHTML=HABIT_LIST.map((h,index)=>`
+  c.innerHTML=HABIT_LIST.map(h=>`
     <div class="habit-row" id="habit-row-${h.id}">
       <div class="habit-label">${h.label} <span>${h.sub}</span></div>
       <div class="yn-group">
         <label class="yn-btn" id="yn-yes-${h.id}" onclick="setHabit('${h.id}','YES')">
-          <input type="radio" name="habit-${h.id}" value="YES" style="accent-color:var(--teal)" onchange="displayField('${index}')"> YES
-		  <span id="muncul${index}"></span>
+          <input type="radio" name="habit-${h.id}" value="YES" style="accent-color:var(--teal)"> YES
         </label>
-        <label class="yn-btn no-sel" id="yn-no-${h.id}" onclick="setHabit('${h.id}','NO')"">
-          <input type="radio" name="habit-${h.id}" value="NO" checked style="accent-color:var(--red)" onchange="removeField('${index}')"> NO
+        <label class="yn-btn no-sel" id="yn-no-${h.id}" onclick="setHabit('${h.id}','NO')">
+          <input type="radio" name="habit-${h.id}" value="NO" checked style="accent-color:var(--red)"> NO
         </label>
       </div>
     </div>`).join('');
-}
-	
-function displayField(e){
-	if(e == 0){
-		 document.getElementById("muncul"+e).innerHTML = '<input type="text" id="smoke_yes" style="width:100px">';
-	}
-	if(e == 3){
-		 document.getElementById("muncul"+e).innerHTML = '<input type="text" id="sport_yes" style="width:100px">';
-	}
-}
-	
-function removeField(e){
-	if(e == 0){
-		 document.getElementById("muncul"+e).innerHTML = '';
-	}
-	if(e == 3){
-		 document.getElementById("muncul"+e).innerHTML = '';
-	}
 }
 
 function setHabit(id, val){
@@ -1068,58 +1085,58 @@ function resetHabits(){
   HABIT_LIST.forEach(h=>setHabit(h.id,'NO'));
 }
 
-// function buildExamGrid(){
-//  const c=document.getElementById('p-examContainer');
-//  c.innerHTML=EXAM_LIST.map(e=>`
-//    <div class="exam-row">
-//      <div class="exam-label">${e.label}<span>${e.sub}</span></div>
-//      <div class="toggle-wrap">
-//        <label class="toggle" title="Normal">
-//          <input type="checkbox" id="exam-chk-${e.id}" checked onchange="examToggleChange('${e.id}')">
-//          <span class="toggle-track"></span>
-//          <span class="toggle-thumb"></span>
-//        </label>
-//        <span style="font-size:12px;font-weight:600;color:var(--teal);min-width:48px" id="exam-status-${e.id}">Normal</span>
-//      </div>
-//      <div class="exam-note">
-//        <textarea id="exam-note-${e.id}" placeholder="Keterangan..." disabled
-//          style="opacity:0.4;cursor:not-allowed;background:var(--surface)"></textarea>
-//      </div>
-//    </div>`).join('');
-// }
+function buildExamGrid(){
+  const c=document.getElementById('p-examContainer');
+  c.innerHTML=EXAM_LIST.map(e=>`
+    <div class="exam-row">
+      <div class="exam-label">${e.label}<span>${e.sub}</span></div>
+      <div class="toggle-wrap">
+        <label class="toggle" title="Normal">
+          <input type="checkbox" id="exam-chk-${e.id}" checked onchange="examToggleChange('${e.id}')">
+          <span class="toggle-track"></span>
+          <span class="toggle-thumb"></span>
+        </label>
+        <span style="font-size:12px;font-weight:600;color:var(--teal);min-width:48px" id="exam-status-${e.id}">Normal</span>
+      </div>
+      <div class="exam-note">
+        <textarea id="exam-note-${e.id}" placeholder="Keterangan..." disabled
+          style="opacity:0.4;cursor:not-allowed;background:var(--surface)"></textarea>
+      </div>
+    </div>`).join('');
+}
 
-//function examToggleChange(id){
-//  const chk=document.getElementById('exam-chk-'+id);
-//  const status=document.getElementById('exam-status-'+id);
-//  const note=document.getElementById('exam-note-'+id);
-//  if(chk.checked){
-//    status.textContent='Normal'; status.style.color='var(--teal)';
-//    note.disabled=true; note.style.opacity='0.4'; note.style.cursor='not-allowed'; note.style.background='var(--surface)';
-//  } else {
-//    status.textContent='Abnormal'; status.style.color='var(--red)';
-//    note.disabled=false; note.style.opacity='1'; note.style.cursor='text'; note.style.background='white';
-//    note.focus();
-//  }
-//}
+function examToggleChange(id){
+  const chk=document.getElementById('exam-chk-'+id);
+  const status=document.getElementById('exam-status-'+id);
+  const note=document.getElementById('exam-note-'+id);
+  if(chk.checked){
+    status.textContent='Normal'; status.style.color='var(--teal)';
+    note.disabled=true; note.style.opacity='0.4'; note.style.cursor='not-allowed'; note.style.background='var(--surface)';
+  } else {
+    status.textContent='Abnormal'; status.style.color='var(--red)';
+    note.disabled=false; note.style.opacity='1'; note.style.cursor='text'; note.style.background='white';
+    note.focus();
+  }
+}
 
-// function getExamData(){
-//  const result={};
-//  EXAM_LIST.forEach(e=>{
-//    const normal=document.getElementById('exam-chk-'+e.id)?.checked!==false;
-//    const note=document.getElementById('exam-note-'+e.id)?.value.trim()||'';
-//    result[e.id]={normal, note:normal?'Normal':note||'Abnormal'};
-//  });
-//  return result;
-//}
+function getExamData(){
+  const result={};
+  EXAM_LIST.forEach(e=>{
+    const normal=document.getElementById('exam-chk-'+e.id)?.checked!==false;
+    const note=document.getElementById('exam-note-'+e.id)?.value.trim()||'';
+    result[e.id]={normal, note:normal?'Normal':note||'Abnormal'};
+  });
+  return result;
+}
 
-// function resetExams(){
-//  EXAM_LIST.forEach(e=>{
-//    const chk=document.getElementById('exam-chk-'+e.id);
-//    if(chk){ chk.checked=true; examToggleChange(e.id); }
-//    const note=document.getElementById('exam-note-'+e.id);
-//    if(note) note.value='';
-//  });
-// }
+function resetExams(){
+  EXAM_LIST.forEach(e=>{
+    const chk=document.getElementById('exam-chk-'+e.id);
+    if(chk){ chk.checked=true; examToggleChange(e.id); }
+    const note=document.getElementById('exam-note-'+e.id);
+    if(note) note.value='';
+  });
+}
 
 // ══════════════════════════════════════════
 //  SAVED LIST
@@ -1174,39 +1191,23 @@ function pBuildQR(){
   document.getElementById('p-qrNama').textContent=nama||'—';
   document.getElementById('p-qrNik').textContent=nik;
   document.getElementById('p-qrId').textContent='ID: '+uid;
-  drawQR('p-qrCanvas', nik);
+  drawQR('p-qrCanvas',uid+'|'+nik+'|'+nama);
 }
 
-//function drawQR(canvasId,data){
-//  const canvas=document.getElementById(canvasId); if(!canvas) return;
-//  const ctx=canvas.getContext('2d');
-//  const size=188,cell=7,cols=Math.floor(size/cell);
-//  ctx.clearRect(0,0,size,size); ctx.fillStyle='#fff'; ctx.fillRect(0,0,size,size);
-//  let h=5381; for(let i=0;i<data.length;i++) h=((h<<5)+h)+data.charCodeAt(i);
-//  function rand(){h=Math.imul(h^(h>>>16),0x45d9f3b);h^=h>>>11;return((h>>>0)/0xffffffff)}
-  //function finder(ox,oy)//{ctx.fillStyle='#0D1C2E';ctx.fillRect(ox,oy,7*cell,7*cell);ctx.fillStyle='#fff';ctx.fillRect(ox+cell,oy+cell,5*cell,5*cell);ctx.fillStyle='#0D1C2E';ctx.fillRect(ox+2*cell,oy+2*cell,3*cell,3*cell)}
-//  finder(0,0); finder((cols-7)*cell,0); finder(0,(cols-7)*cell);
-//  ctx.fillStyle='#0D1C2E';
-//  for(let r=0;r<cols;r++) for(let c=0;c<cols;c++){
-//    if((r<8&&c<8)||(r<8&&c>cols-9)||(r>cols-9&&c<8)) continue;
-//    if(rand()>0.52) ctx.fillRect(c*cell,r*cell,cell,cell);
-//  }
-//}
-	
-function drawQR(canvasId, data) {
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-  var datanya = JSON.stringify(data);
-  QRCode.toCanvas(canvas, datanya, {
-    width: 188,
-    margin: 1,
-    color: {
-      dark: "#0D1C2E",
-      light: "#FFFFFF"
-    }
-  }, function (error) {
-    if (error) console.error(error);
-  });
+function drawQR(canvasId,data){
+  const canvas=document.getElementById(canvasId); if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const size=188,cell=7,cols=Math.floor(size/cell);
+  ctx.clearRect(0,0,size,size); ctx.fillStyle='#fff'; ctx.fillRect(0,0,size,size);
+  let h=5381; for(let i=0;i<data.length;i++) h=((h<<5)+h)+data.charCodeAt(i);
+  function rand(){h=Math.imul(h^(h>>>16),0x45d9f3b);h^=h>>>11;return((h>>>0)/0xffffffff)}
+  function finder(ox,oy){ctx.fillStyle='#0D1C2E';ctx.fillRect(ox,oy,7*cell,7*cell);ctx.fillStyle='#fff';ctx.fillRect(ox+cell,oy+cell,5*cell,5*cell);ctx.fillStyle='#0D1C2E';ctx.fillRect(ox+2*cell,oy+2*cell,3*cell,3*cell)}
+  finder(0,0); finder((cols-7)*cell,0); finder(0,(cols-7)*cell);
+  ctx.fillStyle='#0D1C2E';
+  for(let r=0;r<cols;r++) for(let c=0;c<cols;c++){
+    if((r<8&&c<8)||(r<8&&c>cols-9)||(r>cols-9&&c<8)) continue;
+    if(rand()>0.52) ctx.fillRect(c*cell,r*cell,cell,cell);
+  }
 }
 
 // ══════════════════════════════════════════
@@ -1230,13 +1231,89 @@ function getCompanyAll(){
     .then(resp => resp.json())
     .then((comp) => {
       // console.log(comp)
-        var ddd = `<option value="NULL">Choose Company</option>`;
+        var ddd = `<option value="NULL">Master Company (MCU)</option>`;
         comp?.payload?.forEach((element , index) => {
-            ddd += `<option value="${element?.company_id}">${element?.name}</option>`;
+              ddd += `<option value="${element?.company_id}">${element?.name}</option>`;
         })
         document.getElementById("p-company_all").innerHTML= ddd;
     })
  }
+
+ function getCompanyTera(){
+    fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-company')
+    .then(respo => respo.json())
+    .then((compa) => {
+        var dddd = `<option value="NULL">Company *</option>`;
+        compa?.payload?.forEach((elements , index) => {
+            dddd += `<option value="${elements?.id_perusahaan}">${elements?.id_perusahaan}</option>`;
+        })
+        document.getElementById("p_perusahaan_tera").innerHTML= dddd;
+    })
+  }
+
+  function getPackageMcu(){
+    fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-package')
+    .then(res => res.json())
+    .then((packages) => {
+        var rrr = `<option value="NULL">Choose Package</option>`;
+        packages?.payload?.forEach((rows , index) => {
+            rrr += `<option value="${rows.id_paket}" data-doctor="${rows.id_jenis_dokter}">${rows.nama_paket}</option>`;
+        })
+        document.getElementById("p_paket").innerHTML= rrr;
+    })
+  }
+
+  function getDoctorCoordinator(){
+    fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-doctor-coordinator')
+    .then(respon => respon.json())
+    .then((coordination) => {
+        var rrrr = `<option value="NULL">Choose Coordinator</option>`;
+        coordination?.payload?.forEach((rowss , index) => {
+            rrrr += `<option value="${rowss.id_dokter}">${rowss.nama_dokter}</option>`;
+        })
+        document.getElementById("p_koordinator").innerHTML= rrrr;
+    })
+  }
+
+  async function getDoctorPackage(e) {
+    document.getElementById('id_jenis_dokter').value =
+        e.selectedOptions[0].dataset.doctor;
+    const split = e.selectedOptions[0].dataset.doctor.split(',');
+    const requests = split.map(id =>
+        fetch(
+            `https://dev.klinikdrsanderb-emcu.com/api/v1/upload-mcu/get-doctor-package?id_jenis_dokter=${id}`
+        ).then(res => res.json())
+    );
+    const results = await Promise.all(requests);
+    let html = '';
+    results.forEach(data => {
+        let title = '';
+        let option = '';
+        data.payload.forEach((val, key) => {
+            if (val.id_dokter && val.nama_dokter && val.jenis_dokter) {
+                if (key === 0) title = val.jenis_dokter;
+                option += `
+                    <option value="${val.id_dokter}">
+                        ${val.nama_dokter}
+                    </option>
+                `;
+            }
+        });
+        html += `
+                 <p></p><label> Doctor Package (${title})</label><br>
+                 <select class="sel id_dokter" name="id_dokter[]" style="width:100%; padding: 5px; border: 1px solid #006699;">
+                      <option>Choose</option>
+                      ${option}
+                  </select>
+        `;
+    });
+    const container = document.getElementById("resultDokterPackage");
+    if (container) {
+        container.innerHTML = html;
+    } else {
+        console.error("Element #resultDokterPackage tidak ditemukan");
+    }
+  }
 	
 </script>
 </body>
