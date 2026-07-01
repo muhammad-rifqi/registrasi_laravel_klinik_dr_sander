@@ -207,7 +207,7 @@
             <label class="field-label" id="lbl-noKar">No. Karyawan <span style="color:#E07520">*</span></label>
             <div class="inp-icon-wrap">
               <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-              <input maxlength="12" id="p-noKar" type="text" placeholder="EMP-001234" class="inp"
+              <input maxlength="15" id="p-noKar" type="text" placeholder="EMP-001234" class="inp"
                 oninput="clearFieldError('p-noKar','lbl-noKar')"
                 onfocus="this.style.borderColor='var(--blue)';this.style.boxShadow='0 0 0 3px rgba(26,111,212,0.1)'"
                 onblur="this.style.borderColor='var(--line)';this.style.boxShadow='none'"/>
@@ -1174,7 +1174,7 @@ function pBuildQR(){
   document.getElementById('p-qrNama').textContent=nama||'—';
   document.getElementById('p-qrNik').textContent=nik;
   document.getElementById('p-qrId').textContent='ID: '+uid;
-  drawQR('p-qrCanvas', nama);
+  drawQR('p-qrCanvas', nik);
 }
 
 //function drawQR(canvasId,data){
