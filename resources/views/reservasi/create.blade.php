@@ -215,15 +215,31 @@
             <div class="field-err" id="err-noKar">Wajib diisi</div>
           </div>
 
-          <!-- Departemen -->
+		    <!-- Perusahaan -->
           <div>
+            <label class="field-label">Perusahaan</label>
+            <div style="background:var(--blue-l);border:2px solid rgba(26,111,212,0.2);border-radius:var(--r8);padding:12px 16px;display:flex;align-items:center;gap:10px">
+              <span style="font-size:10px;font-weight:700;background:var(--blue);color:white;padding:3px 8px;border-radius:6px;letter-spacing:.5px;flex-shrink:0">API</span>
+              <span style="font-size:14px;font-weight:600;color:var(--ink-2); width:100%;">
+				 <select style="width:100%; border: 0px; padding: 4px; display:none;" id="p-company_all" required>
+                  
+                </select>
+				  <span id="viewPerusahaan"></span>
+			  </span>
+            </div>
+          </div>
+        </div>
+		  
+		  
+          <!-- Departemen -->
+          <div style="grid-column:1/-1">
             <label class="field-label" id="lbl-dept">Departemen <span style="color:#E07520">*</span></label>
             <div class="sel-wrap">
               <select id="p-dept" class="sel"
                     onchange="clearFieldError('p-dept','lbl-dept')"
                     onfocus="this.style.borderColor='var(--blue)';this.style.boxShadow='0 0 0 3px rgba(26,111,212,0.1)'"
                     onblur="this.style.borderColor='var(--line)';this.style.boxShadow='none'">
-                    <option value="">— Pilih Departemen —</option>
+                    	<option value="">— Pilih Departemen —</option>
                         <option value="HRD">HRD</option>
                         <option value="Finance">Finance</option>
                         <option value="IT">IT</option>
@@ -239,20 +255,7 @@
             <div class="field-err" id="err-dept">Wajib dipilih</div>
           </div>
 
-          <!-- Perusahaan -->
-          <div style="grid-column:1/-1">
-            <label class="field-label">Perusahaan</label>
-            <div style="background:var(--blue-l);border:2px solid rgba(26,111,212,0.2);border-radius:var(--r8);padding:12px 16px;display:flex;align-items:center;gap:10px">
-              <span style="font-size:10px;font-weight:700;background:var(--blue);color:white;padding:3px 8px;border-radius:6px;letter-spacing:.5px;flex-shrink:0">API</span>
-              <span style="font-size:14px;font-weight:600;color:var(--ink-2); width:100%;">
-				 <select style="width:100%; border: 0px; padding: 4px; display:none;" id="p-company_all" required>
-                  
-                </select>
-				  <span id="viewPerusahaan"></span>
-			  </span>
-            </div>
-          </div>
-        </div>
+        
 
         <div class="footer-row">
           <span style="font-size:12px;color:var(--muted)">Field bertanda <span style="color:#E07520">*</span> wajib diisi</span>
@@ -443,7 +446,6 @@ function findByNik(nik){
 	  cariPerusahaan(m.patient_id);
 	  console.log(m)
 	  normalizeDate(m.birth)
-	  document.getElementById("p-company_all").style="display:none;";
 	  document.getElementById("p-tglLahir").value = normalizeDate(m.birth);
 	  return{data:m,source:'mock'};
   }
@@ -485,6 +487,7 @@ function cariPerusahaan(patientid){
 	.then((rw) => {
 		console.log(rw)
 		const formattedDate = new Date().toLocaleDateString('en-GB'); 
+		document.getElementById("p-company_all").style="display:none;";	
 		document.getElementById("viewPerusahaan").innerHTML=rw.data[0].name || "-";
 		document.getElementById("viewPerusahaan2").innerHTML=rw.data[0].name || "-";
 		document.getElementById("viewTanggal").innerHTML=formattedDate;
@@ -599,7 +602,6 @@ function fmtNikField(el){
 //  SEARCH
 // ══════════════════════════════════════════
 function pDoSearch(){
-  document.getElementById("p-company_all").style="display:block; width: 100%; padding : 4px;";
   const raw=document.getElementById('p-nikInp').value;
   const d=raw.replace(/\s/g,'');
   const st=document.getElementById('p-searchStatus');
@@ -621,9 +623,12 @@ function pDoSearch(){
     pAutofill(result.data);
     document.getElementById('p-autofillBanner').style.display='flex';
     document.getElementById('p-newBanner').style.display='none';
+	document.getElementById("viewPerusahaan").style="display:block; width: 100%; padding : 4px;"; 
     pCurrentData=result.data;
   } else {
     st.innerHTML=statusChip('notfound','Data tidak ditemukan — isi form sebagai peserta baru.');
+	document.getElementById("p-company_all").style="display:block; width: 100%; padding : 4px;";  
+	document.getElementById("viewPerusahaan").style="display:none; width: 100%; padding : 4px;"; 
     pClearForm();
     if(pIdType==='nik'){
       document.getElementById('p-nikField').value=raw;
@@ -1025,10 +1030,10 @@ function buildHabitGrid(){
 	
 function displayField(e){
 	if(e == 0){
-		 document.getElementById("muncul"+e).innerHTML = '<input type="text" id="smoke_yes" style="width:100px">';
+		 document.getElementById("muncul"+e).innerHTML = '<input type="text" id="smoke_yes" style="width:300px; padding : 15px;">';
 	}
 	if(e == 3){
-		 document.getElementById("muncul"+e).innerHTML = '<input type="text" id="sport_yes" style="width:100px">';
+		 document.getElementById("muncul"+e).innerHTML = '<input type="text" id="sport_yes" style="width:300px; padding : 15px;">';
 	}
 }
 	
