@@ -1021,7 +1021,7 @@ function buildHabitGrid(){
           <input type="radio" name="habit-${h.id}" value="YES" style="accent-color:var(--teal)" onchange="displayField('${index}')"> YES
 		  <span id="muncul${index}"></span>
         </label>
-        <label class="yn-btn no-sel" id="yn-no-${h.id}" onclick="setHabit('${h.id}','NO')"">
+        <label class="yn-btn no-sel" id="yn-no-${h.id}" onclick="setHabit('${h.id}','NO')">
           <input type="radio" name="habit-${h.id}" value="NO" checked style="accent-color:var(--red)" onchange="removeField('${index}')"> NO
         </label>
       </div>
