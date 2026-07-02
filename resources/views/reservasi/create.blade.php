@@ -248,12 +248,18 @@
                         <option value="Logistik">Logistik</option>
                         <option value="K3 / HSE">K3 / HSE</option>
                         <option value="Marketing">Marketing</option>
-                        <option value="Lainnya">Lainnya</option>
                </select>
                 <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
               </div>
             <div class="field-err" id="err-dept">Wajib dipilih</div>
+			  <p style="font-size: 11px; margin-top: 3px;">Jika Tidak Ada Nama Devisinya. Silahkan Klik <button onclick="tambahDevisi()" style="font-size:11px;">Klik</button> Ini </p>
           </div>
+		  
+		  <div style="grid-column:1/-1" id="inp_lainnya">
+            
+          </div>
+		  
+		  
 
         
 
@@ -386,7 +392,7 @@
         <button class="btn btn-blue" style="flex:1;justify-content:center;padding:14px" onclick="saveQRCode()">
           <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Simpan QR Code
         </button>
-        <button class="btn btn-ghost" style="flex:1;justify-content:center;padding:14px" onclick="resetForm()">
+        <button class="btn btn-ghost" style="flex:1;justify-content:center;padding:14px" onclick="window.location.reload()">
           <svg viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Registrasi Baru
         </button>
       </div>
@@ -715,6 +721,17 @@ function setFieldError(inputId, labelId, errId){
   if(err) err.classList.add('show');
 }
 
+function tambahDevisi(){
+	document.getElementById("inp_lainnya").innerHTML = `
+	<p style="margin-top: 4px;">
+		<div>
+				<label class="field-label" id="lbl-noKar">Departemen <span style="color:#E07520"> </span></label>
+				<div class="inp-icon-wrap">
+				  <input id="p_departement" type="text" placeholder="Silahkan Input Departemen Anda" class="inp"/>
+		</div>
+		</div>
+	</p>`;
+}
 function clearFieldError(inputId, labelId){
   const el=document.getElementById(inputId);
   const lbl=document.getElementById(labelId);
@@ -809,9 +826,9 @@ function pGoStep2(){
     markErr('p-noKar','lbl-noKar','err-noKar','No. Karyawan belum diisi');
   }
   // Departemen
-  if(!document.getElementById('p-dept').value){
-    markErr('p-dept','lbl-dept','err-dept','Departemen belum dipilih');
-  }
+  //if(!document.getElementById('p-dept').value){
+  //  markErr('p-dept','lbl-dept','err-dept','Departemen belum dipilih');
+  //}
 
   if(errors.length>0){
     // Show summary banner
@@ -871,6 +888,7 @@ async function pSubmit(){
       email: peserta.email,
       place: '-',
       department: peserta.dept,
+      p_departement : document.getElementById('p_departement').value.trim(),
       mobile_phone: peserta.hp,
       status: "active",
       company_all: peserta.p_company_all,
