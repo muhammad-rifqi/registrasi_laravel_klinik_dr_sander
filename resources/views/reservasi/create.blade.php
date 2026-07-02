@@ -204,7 +204,7 @@
 
           <!-- No Karyawan -->
           <div>
-            <label class="field-label" id="lbl-noKar">No. Karyawan <span style="color:#E07520">*</span></label>
+            <label class="field-label" id="lbl-noKar">No. Karyawan <span style="color:#E07520"> </span></label>
             <div class="inp-icon-wrap">
               <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
               <input maxlength="12" id="p-noKar" type="text" placeholder="EMP-001234" class="inp"
@@ -676,7 +676,7 @@ function pAutofill(p){
   document.getElementById('p-nama').value=p.fullname||'';
   document.getElementById('p-noHp').value=p.mobile_phone||'';
   document.getElementById('p-email').value=p.email||'';
-  document.getElementById('p-noKar').value=p.karyawan||'';
+  document.getElementById('p-noKar').value=p.employee_id||'';
   document.getElementById('p-dept').value=p.department||'';
   //document.getElementById('p-tglLahir').value=p.birth||'';
   document.getElementById('p_patient_id').value=p.patient_id||'';
@@ -879,7 +879,8 @@ async function pSubmit(){
       phone_code: "62",
       medical_record_number: null,
       place_of_birth: '-',
-      patients_id : peserta.patient_id
+      patients_id : peserta.patient_id,
+	  karyawan : peserta.karyawan
     };
 
     try {
@@ -1030,10 +1031,10 @@ function buildHabitGrid(){
 	
 function displayField(e){
 	if(e == 0){
-		 document.getElementById("muncul"+e).innerHTML = '<input type="text" id="smoke_yes" style="width:300px; padding : 15px;">';
+		 document.getElementById("muncul"+e).innerHTML = `<input type="text" id="smoke_yes0" style="width:300px; padding : 15px;">`;
 	}
 	if(e == 3){
-		 document.getElementById("muncul"+e).innerHTML = '<input type="text" id="sport_yes" style="width:300px; padding : 15px;">';
+		 document.getElementById("muncul"+e).innerHTML = `<input type="text" id="sport_yes3" style="width:300px; padding : 15px;">`;
 	}
 }
 	
