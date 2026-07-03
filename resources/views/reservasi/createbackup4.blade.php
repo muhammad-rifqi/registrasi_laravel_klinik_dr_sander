@@ -330,18 +330,15 @@
 
       <div style="display:flex;flex-direction:column;gap:1rem">
         <div>
-          <label class="field-label">Chief Complaint / Keluhan Utama </label>
-		<!--label class="field-label">Chief Complaint <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">/ Keluhan Utama</span></label-->
+          <label class="field-label">Chief Complaint <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">/ Keluhan Utama</span></label>
           <textarea id="p-chiefComplaint" class="doc-note" placeholder="Contoh: Batuk dan pilek sejak 1 hari yang lalu" style="height:72px"></textarea>
         </div>
         <div>
-          <label class="field-label">Past Illness / Riwayat Penyakit </label>
-		<!--label class="field-label">Past Illness <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">/ Riwayat Penyakit</span></label-->
+          <label class="field-label">Past Illness <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">/ Riwayat Penyakit</span></label>
           <textarea id="p-pastIllness" class="doc-note" placeholder="Contoh: Tidak ada / Hipertensi sejak 2019" style="height:72px"></textarea>
         </div>
         <div>
-          <label class="field-label">Family History / Riwayat Penyakit Keluarga</label>
-			<!--label class="field-label">Family History <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">/ Riwayat Penyakit Keluarga</span></label-->
+          <label class="field-label">Family History <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">/ Riwayat Penyakit Keluarga</span></label>
           <textarea id="p-familyHistory" class="doc-note" placeholder="Contoh: Ibu DM / Ayah Hipertensi" style="height:72px"></textarea>
         </div>
       </div>
@@ -482,7 +479,7 @@ function upsertPeserta(peserta){
 
 let MOCK_DB=[];
 window.addEventListener("load", async ()=> {
-    await fetch('https://klinikdrsanderb-emcu.com/api/v1/patients/all')
+    await fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/patients/all')
     .then(resp => resp.json())
     .then((bbb) => {
         MOCK_DB = bbb.payload || [];
@@ -491,12 +488,12 @@ window.addEventListener("load", async ()=> {
 	
 	
 function cariPerusahaan(patientid){
-	fetch('https://klinikdrsanderb-emcu.com/api/v1/companies/getpatient/'+patientid)
+	fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/companies/getpatient/'+patientid)
 	.then(yyy => yyy.json())
 	.then((rw) => {
 		console.log(rw)
 		const formattedDate = new Date().toLocaleDateString('en-GB'); 
-		document.getElementById("p-company_all").style="display:block;";	
+		document.getElementById("p-company_all").style="display:none;";	
 		document.getElementById("viewPerusahaan").innerHTML=rw.data[0].name || "-";
 		document.getElementById("viewPerusahaan2").innerHTML=rw.data[0].name || "-";
 		document.getElementById("viewTanggal").innerHTML=formattedDate;
@@ -632,7 +629,7 @@ function pDoSearch(){
     pAutofill(result.data);
     document.getElementById('p-autofillBanner').style.display='flex';
     document.getElementById('p-newBanner').style.display='none';
-	document.getElementById("viewPerusahaan").style="display:none; width: 100%; padding : 4px;"; 
+	document.getElementById("viewPerusahaan").style="display:block; width: 100%; padding : 4px;"; 
     pCurrentData=result.data;
   } else {
     st.innerHTML=statusChip('notfound','Data tidak ditemukan — isi form sebagai peserta baru.');
@@ -825,9 +822,9 @@ function pGoStep2(){
     markErr('p-email','lbl-email','err-email','Email belum diisi');
   }
   // No Karyawan
-  //if(!document.getElementById('p-noKar').value.trim()){
-  //  markErr('p-noKar','lbl-noKar','err-noKar','No. Karyawan belum diisi');
-  //}
+  if(!document.getElementById('p-noKar').value.trim()){
+    markErr('p-noKar','lbl-noKar','err-noKar','No. Karyawan belum diisi');
+  }
   // Departemen
   //if(!document.getElementById('p-dept').value){
   //  markErr('p-dept','lbl-dept','err-dept','Departemen belum dipilih');
@@ -906,7 +903,7 @@ async function pSubmit(){
 
     try {
       const response = await fetch(
-        'https://klinikdrsanderb-emcu.com/api/v1/patients/storepatients',
+        'https://dev.klinikdrsanderb-emcu.com/api/v1/patients/storepatients',
         {
           method: 'POST',
           headers: {
@@ -920,7 +917,7 @@ async function pSubmit(){
         // window.location.href=`/reservasi/qrcode/${result?.payload?.patient_id}`
             console.log(result);
             if(result.status == 201){
-              await fetch('https://klinikdrsanderb-emcu.com/api/v1/patients/inserthistory', {
+              await fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/patients/inserthistory', {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json'
@@ -1255,7 +1252,7 @@ function toast(msg,type='ok'){
 	
 
 function getCompanyAll(){
-    fetch('https://klinikdrsanderb-emcu.com/api/v1/companies/all')
+    fetch('https://dev.klinikdrsanderb-emcu.com/api/v1/companies/all')
     .then(resp => resp.json())
     .then((comp) => {
       // console.log(comp)
