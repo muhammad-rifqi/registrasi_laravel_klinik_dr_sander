@@ -882,7 +882,9 @@ async function pSubmit(){
   };
 
   console.log(peserta);
-
+	 const input = document.getElementById('p_departement');
+	 const p_dept = input?.value.trim() || peserta.dept;
+	
      const payload = {
       title: peserta.title,
       fullname: peserta.nama,
@@ -891,7 +893,7 @@ async function pSubmit(){
       email: peserta.email,
       place: '-',
       department: peserta.dept,
-      p_departement : document.getElementById('p_departement').value.trim(),
+      p_departement : p_dept,
       mobile_phone: peserta.hp,
       status: "active",
       company_all: peserta.p_company_all,
@@ -918,8 +920,14 @@ async function pSubmit(){
       const result = await response.json();
       if (response.ok) {
         // window.location.href=`/reservasi/qrcode/${result?.payload?.patient_id}`
-            console.log(result);
+            console.log("rifki"+JSON.stringify(result));
             if(result.status == 201){
+				const inputsmoke = document.getElementById('smoke_yes0');
+	 			const p_inputsmoke = inputsmoke?.value.trim() || peserta.habits.smoke;
+				
+				const inputsport = document.getElementById('sport_yes3');
+	 			const p_inputsport = inputsport?.value.trim() || peserta.habits.sport;
+				
               await fetch('https://klinikdrsanderb-emcu.com/api/v1/patients/inserthistory', {
                       method: 'POST',
                       headers: {
@@ -940,13 +948,13 @@ async function pSubmit(){
                         //extremitas : peserta.physicalExam.extremity.normal,
 						extremitas : '-',
                         is_smoke : peserta.habits.smoke,
-						smoke_yes0 : document.getElementById('smoke_yes0').value.trim()||'',
+						smoke_yes0 : p_inputsmoke,
                         smoke_a_day : '-',
                         is_alcohol : peserta.habits.alcohol,
                         is_coffe : peserta.habits.coffee,
                         is_sport : peserta.habits.sport,
                         sport_type : '-',
-						sport_yes3 : document.getElementById('sport_yes3').value.trim()||'',
+						sport_yes3 : p_inputsport,
                         sport_freek_or_sunday : '-',
                         //neck : peserta.physicalExam.neck.normal,
 						neck : '-',
