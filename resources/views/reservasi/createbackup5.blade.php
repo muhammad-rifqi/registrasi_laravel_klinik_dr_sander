@@ -219,8 +219,7 @@
           <div>
             <label class="field-label">Perusahaan</label>
             <div style="background:var(--blue-l);border:2px solid rgba(26,111,212,0.2);border-radius:var(--r8);padding:12px 16px;display:flex;align-items:center;gap:10px">
-              <span style="font-size:10px;font-weight:700;background:var(--blue);color:white;padding:3px 8px;border-radius:6px;letter-spacing:.5px;flex-shrink:0">-</span>
-				<!-- API -->
+              <span style="font-size:10px;font-weight:700;background:var(--blue);color:white;padding:3px 8px;border-radius:6px;letter-spacing:.5px;flex-shrink:0">API</span>
               <span style="font-size:14px;font-weight:600;color:var(--ink-2); width:100%;">
 				 <select style="width:100%; border: 0px; padding: 4px; display:none;" id="p-company_all" required>
                   
@@ -233,7 +232,7 @@
 		  
 		  
           <!-- Departemen -->
-          <!--div style="grid-column:1/-1">
+          <div style="grid-column:1/-1">
             <label class="field-label" id="lbl-dept">Departemen <span style="color:#E07520">*</span></label>
             <div class="sel-wrap">
               <select id="p-dept" class="sel"
@@ -254,7 +253,7 @@
               </div>
             <div class="field-err" id="err-dept">Wajib dipilih</div>
 			  <p style="font-size: 11px; margin-top: 3px;">Jika Tidak Ada Nama Devisinya. Silahkan Klik <button onclick="tambahDevisi()" style="font-size:11px;">Klik</button> Ini </p>
-          </div-->
+          </div>
 		  
 		  <div style="grid-column:1/-1" id="inp_lainnya">
             
@@ -535,7 +534,6 @@ window.addEventListener('DOMContentLoaded',()=>{
   //buildExamGrid();
   renderSavedList();
   getCompanyAll();
-  tambahDevisi();
 });
 
 // ══════════════════════════════════════════
@@ -732,7 +730,7 @@ function tambahDevisi(){
 		<div>
 				<label class="field-label" id="lbl-noKar">Departemen <span style="color:#E07520"> </span></label>
 				<div class="inp-icon-wrap">
-				  <input id="p-dept" type="text" placeholder="Silahkan Input Departemen Anda" class="inp"/>
+				  <input id="p_departement" type="text" placeholder="Silahkan Input Departemen Anda" class="inp"/>
 		</div>
 		</div>
 	</p>`;
@@ -1213,7 +1211,7 @@ function pBuildQR(){
   document.getElementById('p-qrNama').textContent=nama||'—';
   document.getElementById('p-qrNik').textContent=nik;
   document.getElementById('p-qrId').textContent='ID: '+uid;
-  drawQR('p-qrCanvas',nama);
+  drawQR('p-qrCanvas', nama);
 }
 
 //function drawQR(canvasId,data){
@@ -1235,7 +1233,7 @@ function pBuildQR(){
 function drawQR(canvasId, data) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
-  var datanya = data.split('.')[1];
+  var datanya = JSON.stringify(data);
   QRCode.toCanvas(canvas, datanya, {
     width: 188,
     margin: 1,
