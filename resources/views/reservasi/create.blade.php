@@ -926,16 +926,19 @@ async function pSubmit(){
             if(result.status == 201){
 				const inputsmoke = document.getElementById('smoke_yes0');
 	 			const p_inputsmoke = inputsmoke?.value.trim() || peserta.habits.smoke;
+				//const p_inputsmoke = inputsmoke?.value.trim();
 				
 				const inputsport = document.getElementById('sport_yes3');
 	 			const p_inputsport = inputsport?.value.trim() || peserta.habits.sport;
+				//const p_inputsport = inputsport?.value.trim();
+				
 				
               await fetch('https://klinikdrsanderb-emcu.com/api/v1/patients/inserthistory', {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json'
                       },
-                      
+                      // (result?.payload?.patient_id == "") ? peserta.patient_id : result?.payload?.patient_id,
                       body: JSON.stringify({
                         patient_id : peserta.patient_id || result?.payload?.patient_id,
                         color_blind : ' - ',
@@ -985,10 +988,10 @@ async function pSubmit(){
                         console.error('Error:', error);
                       });
             }else{
-
+				alert(result.message || 'Gagal menyimpan data'); return
             }
       } else {
-        alert(result.message || 'Gagal menyimpan data');
+        alert(result.message || 'Gagal menyimpan data'); return
       }
     }catch (error) {
       console.error(error);
@@ -1064,10 +1067,10 @@ function buildHabitGrid(){
 	
 function displayField(e){
 	if(e == 0){
-		 document.getElementById("muncul"+e).innerHTML = `<input type="text" id="smoke_yes0" style="width:300px; padding : 15px;">`;
+		 document.getElementById("muncul"+e).innerHTML = `<input type="text" id="smoke_yes0" style="width:300px; padding : 15px;" required>`;
 	}
 	if(e == 3){
-		 document.getElementById("muncul"+e).innerHTML = `<input type="text" id="sport_yes3" style="width:300px; padding : 15px;">`;
+		 document.getElementById("muncul"+e).innerHTML = `<input type="text" id="sport_yes3" style="width:300px; padding : 15px;" required>`;
 	}
 }
 	
