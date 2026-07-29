@@ -861,6 +861,8 @@ async function pSubmit(){
   const title=document.getElementById('p-title-sel').value;
   const nikRaw=document.getElementById('p-nikField').value.replace(/\s/g,'');
   const searchNik=document.getElementById('p-nikInp').value.replace(/\s/g,'');
+
+
   const peserta={
     id:pCurrentData?.id||'REG-'+Date.now(),
     title,
@@ -907,6 +909,28 @@ async function pSubmit(){
       patients_id : peserta.patient_id,
 	  karyawan : peserta.karyawan
     };
+
+      // Validasi Smoke
+      if (peserta.habits.smoke === "YES") {
+          const smokeInput = document.getElementById("smoke_yes0");
+
+          if (!smokeInput || smokeInput.value.trim() === "") {
+              alert("Keterangan merokok wajib diisi.");
+              smokeInput?.focus();
+              return;
+          }
+      }
+
+      // Validasi Sport
+      if (peserta.habits.sport === "YES") {
+          const sportInput = document.getElementById("sport_yes3");
+
+          if (!sportInput || sportInput.value.trim() === "") {
+              alert("Keterangan olahraga wajib diisi.");
+              sportInput?.focus();
+              return;
+          }
+      }
 
     try {
       const response = await fetch(
@@ -1067,10 +1091,10 @@ function buildHabitGrid(){
 	
 function displayField(e){
 	if(e == 0){
-		 document.getElementById("muncul"+e).innerHTML = `<input type="text" id="smoke_yes0" style="width:300px; padding : 15px;" required>`;
+		 document.getElementById("muncul"+e).innerHTML = `<input type="text" id="smoke_yes0" required style="width:300px; padding : 15px;">`;
 	}
 	if(e == 3){
-		 document.getElementById("muncul"+e).innerHTML = `<input type="text" id="sport_yes3" style="width:300px; padding : 15px;" required>`;
+		 document.getElementById("muncul"+e).innerHTML = `<input type="text" id="sport_yes3" required style="width:300px; padding : 15px;">`;
 	}
 }
 	
